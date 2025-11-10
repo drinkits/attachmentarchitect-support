@@ -2,7 +2,7 @@
 
 **Smart attachment management that saves storage, time, and money.**
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://marketplace.atlassian.com)
+[![Version](https://img.shields.io/badge/version-3.15.0-blue.svg)](https://marketplace.atlassian.com)
 [![License](https://img.shields.io/badge/license-Commercial-green.svg)](https://marketplace.atlassian.com)
 [![Platform](https://img.shields.io/badge/platform-Jira%20Cloud-0052CC.svg)](https://www.atlassian.com/software/jira)
 [![Forge](https://img.shields.io/badge/built%20with-Atlassian%20Forge-00B8D9.svg)](https://developer.atlassian.com/platform/forge/)
