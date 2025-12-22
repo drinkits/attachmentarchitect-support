@@ -1,8 +1,8 @@
 # Attachment Architect - User Guide
 ## Smart Attachment Management for Jira Cloud
 
-**Version:** 3.15.0  
-**Last Updated:** November 2025
+**Version:** 3.29.0  
+**Last Updated:** January 2025
 
 ---
 
@@ -13,14 +13,15 @@
 3. [Running Your First Scan](#running-your-first-scan)
 4. [Understanding the Dashboard](#understanding-the-dashboard)
 5. [Analyzing Your Data](#analyzing-your-data)
-6. [Cleaning Up Duplicates](#cleaning-up-duplicates)
-7. [Cleaning Up Trash Files](#cleaning-up-trash-files)
-8. [Settings & Configuration](#settings--configuration)
-9. [Audit Trail](#audit-trail)
-10. [Trial vs. Paid Features](#trial-vs-paid-features)
-11. [Troubleshooting](#troubleshooting)
-12. [FAQ](#faq)
-13. [Support](#support)
+6. [Action Center - Cleaning Up Duplicates](#action-center---cleaning-up-duplicates)
+7. [Storage Hygiene - Removing Trash Files](#storage-hygiene---removing-trash-files)
+8. [Security Risks - Finding Sensitive Files](#security-risks---finding-sensitive-files)
+9. [Settings & Configuration](#settings--configuration)
+10. [Audit Trail](#audit-trail)
+11. [Trial vs. Paid Features](#trial-vs-paid-features)
+12. [Troubleshooting](#troubleshooting)
+13. [FAQ](#faq)
+14. [Support](#support)
 
 ---
 
@@ -28,19 +29,32 @@
 
 Attachment Architect helps Jira administrators **eliminate storage waste** by finding and removing duplicate attachments and **low‑value trash files** (logs, dumps, temp, system). It's like having a smart assistant that:
 
-- 🔍 **Scans** your site with a two‑phase engine (unified progress + ETA)
-- 🧭 **Scopes** by entire site or selected projects (no JQL required)
-- 📊 **Analyzes** storage usage across 7 dimensions
-- 🎯 **Identifies** duplicates and “Frozen Dinosaurs” (large files on old issues)
-- 🧹 **Cleans** duplicates and trash with safe, bulk actions
-- 📝 **Tracks** everything in an enterprise audit log
+*   🔍 **Scans** your site with a two‑phase engine (unified progress + ETA)
+    
+*   🧭 **Scopes** by entire site or selected projects (no JQL required)
+    
+*   📊 **Analyzes** storage usage across 7 dimensions
+    
+*   🎯 **Identifies** duplicates and "Frozen Dinosaurs" (large files on old issues)
+    
+*   🧹 **Cleans** duplicates and trash with safe, bulk actions
+    
+*   🛡️ **Detects** security risks (PII, credentials, sensitive files)
+    
+*   📝 **Tracks** everything in an enterprise audit log
+    
 
 ### Why You Need It
 
-- **Save Money:** Reduce storage costs by 20-40% on average
-- **Improve Performance:** Faster backups and better Jira performance
-- **Stay Compliant:** Full audit trail for GDPR and compliance requirements
-- **Save Time:** 2 hours vs. 2 weeks of manual cleanup
+*   **Save Money:** Reduce storage costs by 20-40% on average
+    
+*   **Improve Performance:** Faster backups and better Jira performance
+    
+*   **Stay Compliant:** Full audit trail for GDPR and compliance requirements
+    
+*   **Enhance Security:** Find and remediate sensitive files before they become incidents
+    
+*   **Save Time:** 2 hours vs. 2 weeks of manual cleanup
 
 ---
 
@@ -75,33 +89,52 @@ https://your-site.atlassian.net/jira/settings/apps/attachment-architect
 
 ## Running Your First Scan
 
-### Step 1: Start a Scan
+### Step 1: Configure Scan Scope
 
 1. Open **Attachment Architect** from Jira Settings
-2. Click **Start New Scan**
-3. Choose **Scope**: Entire site or one/more Projects
-4. Confirm **Start Scan**
+2. Click **"Start the Audit"**
+3. **Choose Scope**:
+   - **Entire Site**: Scan all projects (recommended for first scan)
+   - **Selected Projects**: Choose specific projects to scan
+4. Review estimated issue count
+5. Click **"Confirm & Start Scan"**
 
-> During scans, a unified progress bar and ETA display status. You can keep using the dashboard thanks to **stale‑data mode**; it shows the last completed results until the new scan finishes.
+> **Pro Tip:** Start with a full site scan to get the complete picture, then use project scoping for targeted re-scans.
 
-### Step 2: Wait for Completion
+### Step 2: Monitor Progress
 
+The scan runs in two phases:
+
+**Phase 1: Mapping the Territory (0-5%)**
+- Collects issue IDs from Jira API
+- Progress may appear slow but backend is working hard
+- Safe to close window - scan continues in background
+
+**Phase 2: Analyzing Issues (5-100%)**
+- Processes each issue and its attachments
+- Shows real-time progress and ETA
+- Displays processing speed (issues/second)
+
+**Scan Duration:**
 - **Small instances** (< 1,000 issues): 30 seconds - 1 minute
 - **Medium instances** (1,000 - 10,000 issues): 2-5 minutes
 - **Large instances** (10,000+ issues): 5-15 minutes
 
 **What happens during a scan:**
 - ✅ Two‑phase engine collects issue IDs, then analyzes in parallel
-- ✅ Reads attachment metadata (filename, size, upload date)
+- ✅ Reads attachment metadata (filename, size, upload date, author)
 - ✅ Calculates file hashes (SHA‑256) to identify duplicates
-- ✅ Analyzes storage patterns by project, user, file type, age, status, heat
+- ✅ Analyzes storage patterns by project, user, file type, age, status
+- ✅ Detects trash files (logs, dumps, temp files)
+- ✅ Identifies security risks (sensitive filenames)
 - ❌ **Never reads file contents** (privacy‑first design)
 
 ### Step 3: View Results
 
 Once complete, you'll see:
 - **Total storage** used by attachments
-- **Duplicate storage** and **Trash storage** that can be reclaimed
+- **Duplicate storage** that can be reclaimed
+- **Trash storage** (logs, dumps, temp files)
 - **Waste percentage** (duplicates + trash / total)
 - **Quick Wins** – Top 3 highest‑impact duplicate groups
 - **Scope badge** – Which projects the results reflect
@@ -113,26 +146,33 @@ Once complete, you'll see:
 ### Global Statistics (Top Cards)
 
 ```
-┌─────────────────┬─────────────────┬─────────────────┬─────────���───────┐
-│  Total Storage  │ Duplicate Waste │ Waste Percentage│ Potential Savings│
-│     50.2 GB     │     15.3 GB     │      30.5%      │    €184/year    │
-└─────────────────┴─────────────────┴─────────────────┴─────────────────┘
+┌─────────────────┬─────────────────┬��────────────────┬─────────────────┬─────────────────┐
+│  Digital Hoard  │  Déjà Vu Data   │ Digital Landfill│  Panic Level    │    On Fire 🔥   │
+│    50.2 GB      │    15.3 GB      │     8.2 GB      │      47%        │   23.5 GB       │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┘
 ```
 
-- **Total Storage:** All attachment space used
-- **Duplicate Waste:** Space consumed by duplicate files
-- **Waste Percentage:** How much of your storage is duplicates
-- **Potential Savings:** Estimated yearly cost savings (at €0.10/GB/month)
+- **Digital Hoard:** Total attachment storage used
+- **Déjà Vu Data:** Space wasted by duplicate files
+- **Digital Landfill:** Space wasted by trash files (logs, dumps, temp)
+- **Panic Level:** Waste percentage (duplicates + trash / total)
+- **On Fire 🔥:** Potential savings (duplicates + trash combined)
+
+### Scope Badge
+
+Shows which projects are included in the current scan results:
+- **"Entire Site"** - All projects scanned
+- **"3 Projects"** - Specific projects scanned (click to see list)
 
 ### Quick Wins Table
 
 Shows the **top 3 individual files** with the most duplicates:
 
-| File Name | Duplicates | Wasted Space | Action |
-|-----------|------------|--------------|--------|
-| requirements.pdf | 49 copies | 245 MB | View Details |
-| screenshot.png | 38 copies | 152 MB | View Details |
-| design.sketch | 25 copies | 125 MB | View Details |
+| File Name | Duplicates | Wasted Space | Pain Level | Action |
+|-----------|------------|--------------|------------|--------|
+| requirements.pdf | 49 copies | 245 MB | 🔥🔥🔥 | View Details |
+| screenshot.png | 38 copies | 152 MB | 🔥🔥 | View Details |
+| design.sketch | 25 copies | 125 MB | 🔥 | View Details |
 
 **Tip:** Start here for maximum impact with minimum effort!
 
@@ -142,167 +182,257 @@ Shows the **top 3 individual files** with the most duplicates:
 
 ### Visual Analysis Tabs
 
-Click the **"Visual Analysis"** tab to explore your data:
+Click the **"Visual Analysis"** tab to explore your data across 7 dimensions:
 
-#### 1. By Project
+#### 1. Project Bloat Map
 
-**What it shows:** Storage usage per project
+**What it shows:** Storage usage per project with treemap visualization
 
 **Use it to:**
 - Identify which projects consume the most space
 - Find "zombie projects" with no recent activity
 - Plan project archival strategies
+- See garbage ratio (waste %) per project
 
-**Example:**
-```
-PROJECT-A: ████████████████████ 15.2 GB (30%)
-PROJECT-B: ████████████ 8.5 GB (17%)
-PROJECT-C: ████████ 5.3 GB (11%)
-```
+**Color coding:**
+- 🟢 Green: Clean (< 15% waste)
+- 🟡 Yellow: Messy (15-30% waste)
+- 🔴 Red: Hoarder (> 30% waste)
 
-#### 2. By File Type
+#### 2. File Type Analysis
 
-**What it shows:** Storage breakdown by file extension
+**What it shows:** Storage breakdown by file extension with bubble chart
 
 **Use it to:**
 - Understand what types of files are most common
 - Identify oversized file types (videos, ZIPs)
 - Set policies based on file type
+- See average file size per type
 
-**Example:**
-```
-.pdf:  ████████████████ 12.3 GB (25%)
-.png:  ████████████ 9.8 GB (20%)
-.zip:  ████████ 6.5 GB (13%)
-```
+**Bubble size** = Average file weight. Large bubbles in top-right = storage bullies.
 
-#### 3. By User
+#### 3. Storage Hoarder Leaderboard (By User)
 
-**What it shows:** Storage usage per user
+**What it shows:** Storage usage and waste percentage per user
 
 **Use it to:**
 - See which users upload the most files
-- Identify power users vs. occasional uploaders
+- Identify "Ctrl+C / Ctrl+V" award winners (highest duplicate ratio)
 - Track duplicate upload patterns
+- Plan user training
 
-**Example:**
-```
-John Smith:  ████████████████ 8.2 GB (16%)
-Jane Doe:    ████████████ 6.5 GB (13%)
-Bob Johnson: ████████ 4.3 GB (9%)
-```
+**Features:**
+- Top 5 Quota Busters (by total storage)
+- Top 5 highest waste percentage users
 
-#### 4. By Age
+#### 4. Digital Archaeology (By Age)
 
-**What it shows:** Storage by file age
+**What it shows:** Storage by file age with stacked bar chart
 
 **Use it to:**
-- Find old files for archival
+- Find old files for archival ("Paleozoic Era" = 2+ years)
 - Implement retention policies
 - Identify stale attachments
+- See waste percentage by age bracket
 
-**Example:**
-```
-0-90 days:   ████████████ 8.5 GB (17%)
-90-365 days: ████████████████ 12.3 GB (25%)
-1-2 years:   ████████████ 9.8 GB (20%)
-2-4 years:   ████████ 6.5 GB (13%)
-4+ years:    ████████████ 9.1 GB (18%)
-```
+**Age brackets:**
+- 0-90 days (Freshly Minted)
+- 90-365 days (This year)
+- 1-2 years
+- 2-4 years
+- 4+ years (The Paleozoic Era)
 
-#### 5. By Status
+#### 5. Workflow Analysis (By Status)
 
-**What it shows:** Storage by issue status (To Do, In Progress, Done)
+**What it shows:** Storage by issue status with smart grouping
 
 **Use it to:**
 - See how much storage is in completed issues
 - Identify bottlenecks (storage stuck in "Backlog")
-- Optimize workflow efficiency (smart grouping shows top in‑progress statuses)
+- Optimize workflow efficiency
+- Find issues to archive
 
-**Example:**
-```
-Done:        ████████████████████ 25.3 GB (50%)
-In Progress: ████████████ 15.2 GB (30%)
-To Do:       ████████ 9.7 GB (19%)
-```
+**Smart grouping:** Shows top in-progress statuses, groups others as "Other In Progress"
 
----
+#### 6. Frozen Dinosaurs (Heat Index)
 
-## Cleaning Up Duplicates
+**What it shows:** Large files on old issues (highest cleanup priority)
 
-### Action Center
+**Use it to:**
+- Find "set it and forget it" files
+- Identify extinct projects
+- Prioritize cleanup efforts
+- See files by heat score (size × age)
 
-Click the **"Action Center"** tab to manage duplicates:
+**Priority levels:**
+- 🦕 Frozen Dinosaurs (large + old)
+- 🔥 Large Files (> 10 MB)
+- 🕰️ Old Issues (> 1 year)
+- ✅ Active Files
 
-#### Quick Wins Tab
+#### 7. Archive Candidates (Zombie Projects)
 
-**Best for:** Fast, high-impact cleanup
-
-1. Review the list of duplicate files
-2. Click **"View Details"** on any file
-3. See all locations where the file appears
-4. Click **"Delete Duplicates"**
-5. Confirm deletion
-
-**What gets deleted:**
-- ✅ All duplicate copies
-- ❌ Canonical file (kept safe)
-
-**Example:**
-```
-File: requirements.pdf (5 MB)
-Canonical: PROJECT-123 (keep this)
-Duplicates:
-  ☑ PROJECT-124 (delete)
-  ☑ PROJECT-125 (delete)
-  ☑ PROJECT-126 (delete)
-  ... 46 more
-```
-
-#### All Duplicates Tab
-
-**Best for:** Comprehensive cleanup
-
-1. Browse the complete list of all duplicate files
-2. Use filters to narrow down:
-   - **File Type:** .pdf, .png, .zip, etc.
-   - **Project:** Specific projects
-   - **Size:** Minimum file size
-3. Select files to clean up
-4. Click **"Bulk Delete"**
-
-**Bulk deletion limits:**
-- **Trial users:** Up to 20 files (lifetime limit)
-- **Paid users:** Up to 100 files per operation (unlimited operations)
-
----
-
-## Cleaning Up Trash Files
-
-**Best for:** Quick, low‑risk savings
-
-1. Open **Storage Hygiene**
-2. Review categories: **Logs**, **Dumps**, **Temp**, **System**
-3. Select files (checkboxes) and click **Delete Selected**
-4. Watch progress; success/failure counts are shown
-
-**Safety:**
-- Highlights files on active issues to reduce risk
-- Type‑to‑confirm bulk deletes
-- Full audit trail for every deletion
-
-#### Archive Candidates Tab
-
-**Best for:** Finding inactive projects
-
-Shows projects with:
-- No updates in 180+ days
-- Significant storage usage (> 1 MB)
+**What it shows:** Projects with no updates in 180+ days
 
 **Use it to:**
 - Identify projects for archival
 - Contact project owners before cleanup
 - Plan long-term storage optimization
+- See "extinction event" candidates
+
+---
+
+## Action Center - Cleaning Up Duplicates
+
+### Quick Wins Tab
+
+**Best for:** Fast, high-impact cleanup
+
+1. Review the list of duplicate files sorted by impact
+2. Click **"View Details"** on any file
+3. See all locations where the file appears
+4. **Canonical file** (oldest) is marked with ✅ and kept safe
+5. Select duplicates to delete (or use "Select All Duplicates")
+6. Click **"Delete Selected"**
+7. Confirm deletion
+
+**What gets deleted:**
+- ✅ All selected duplicate copies
+- ❌ Canonical file (always kept safe)
+
+**Safety features:**
+- Type-to-confirm for bulk deletes
+- Shows which file is canonical
+- Links to all affected issues
+- Full audit trail
+
+### All Duplicates Tab
+
+**Best for:** Comprehensive cleanup with advanced filtering
+
+**Filters available:**
+- **Search:** Filename or issue key
+- **File Type:** .pdf, .png, .zip, etc.
+- **Project:** Specific projects
+- **Min Size:** Minimum file size
+
+**Bulk deletion limits:**
+- **Trial users:** Up to 20 files (lifetime limit)
+- **Paid users:** Unlimited deletions
+
+---
+
+## Storage Hygiene - Removing Trash Files
+
+**NEW FEATURE:** Automatically detect and remove low-value files
+
+### What Are Trash Files?
+
+Files that provide minimal value but consume storage:
+
+- **Log Files:** *.log, *.trace, debug files, error logs
+- **Database Dumps:** *.sql, *.dump, *.bak, backup files
+- **Temporary Files:** *.tmp, *.temp, *.cache, *.old
+- **Build Artifacts:** *.class, *.o, *.pyc, compiled files
+- **Archives:** *.zip, *.tar, *.gz (when duplicates exist)
+
+### How to Use Storage Hygiene
+
+1. Open **Storage Hygiene** tab
+2. Review detected trash files
+3. Use filters to narrow down:
+   - **Search:** Filename or issue key
+   - **File Type:** Specific extensions
+   - **Status:** Issue status
+4. Select files using checkboxes
+5. Click **"Download Backup"** (opens Jira Backup Manager)
+6. After backup, click **"Permanent Delete"**
+7. Confirm deletion
+
+### Safety Features
+
+- **Active Issue Warning:** Files on active issues highlighted in yellow
+- **Backup Strategy Modal:** Directs you to Jira's native backup
+- **Risk Acknowledgment:** Must acknowledge risks before deleting
+- **Type-to-Confirm:** Extra confirmation for bulk deletes
+- **Full Audit Trail:** Every deletion logged
+
+### Best Practices
+
+✅ **DO:**
+- Always create a backup before mass deletion
+- Review files on active issues carefully
+- Start with small batches (10-20 files)
+- Check issue status before deleting
+
+❌ **DON'T:**
+- Delete files without backup
+- Ignore active issue warnings
+- Delete files you're unsure about
+- Rush through the process
+
+---
+
+## Security Risks - Finding Sensitive Files
+
+**NEW FEATURE:** Detect files with potential security risks
+
+### What Gets Detected?
+
+Files identified by filename patterns:
+
+**CRITICAL Severity:**
+- Private keys (*.key, *.pem, id_rsa)
+- Database dumps (*.sql, *.dump)
+- Credentials files (.env, secrets.*)
+
+**HIGH Severity:**
+- Config files (*.conf, *.yaml, *.ini)
+- AWS credentials
+- API key files
+
+**MEDIUM Severity:**
+- Source code (*.js, *.py, *.java)
+- Business documents (*.xlsx, *.docx)
+- Log files
+
+**LOW Severity:**
+- Backup files (*.bak, *.backup)
+- Archives (*.zip, *.tar)
+- Text files
+
+### Deep Content Scanning (Optional)
+
+For text files < 5MB, enable deep scanning to search for:
+- Passwords
+- AWS Keys
+- Bearer Tokens
+- Credit Cards (Luhn validation)
+- SSNs
+- Internal IPs
+
+**Enable in Settings → Security & Scanning → Real-Time Upload Scanner**
+
+### How to Use Security Risks
+
+1. Open **Security Risks** tab
+2. Review summary cards (Critical, High, Medium, Low)
+3. Click severity card to filter
+4. For each file:
+   - Click **"Review Content"** to scan (if scannable)
+   - Click **"Download"** to inspect locally
+   - Navigate to issue to remediate
+5. Take action:
+   - Delete file if confirmed sensitive
+   - Move to secure location
+   - Update issue with remediation notes
+
+### Important Notes
+
+- **Read-Only View:** Security Risks tab is for awareness only
+- **No Direct Deletion:** Remediate through issue management
+- **Privacy-First:** Only scans filenames by default
+- **Opt-In Content Scanning:** Deep scanning must be enabled in Settings
 
 ---
 
@@ -315,31 +445,71 @@ Shows projects with:
 
 ### Available Settings
 
-#### Scope
+#### 1. Scan Scope Configuration
 
-Choose whether to scan the **entire site** or **selected projects**.
+**What it does:** Define which projects to scan
 
-#### Activity Panel
+**Options:**
+- **Entire Site:** Scan all projects (default)
+- **Selected Projects:** Choose specific projects
+
+**How to configure:**
+1. Go to Settings → Scan Scope
+2. Select scope type
+3. If "Selected Projects", choose projects from list
+4. Click "Save Scope"
+
+#### 2. On-Issue Visibility (Activity Panel)
 
 **What it does:** Shows deletion history on Jira issues
 
 **Options:**
 - ✅ **Enabled:** Activity panel appears on issues with deletion history
-- ❌ **Disabled:** Activity panel hidden (default)
+- ❌ **Disabled:** Stealth mode (default)
 
 **How to enable:**
 1. Go to **Settings** tab
-2. Toggle **"Show Activity Panel on Issues"** to ON
+2. Toggle **"Show Attachment Activity Panel"** to ON
 3. Click **"Save Settings"**
 
 **What users see:**
-- On any issue where files were deleted
-- A panel showing:
-  - What was deleted
-  - When it was deleted
-  - Who deleted it
-  - Why it was deleted (if reason provided)
-  - Link to canonical file (if accessible)
+- Panel on issues where files were deleted
+- What was deleted, when, by whom, why
+- Link to canonical file (if accessible)
+
+**"Ghost Protocol":** When disabled, existing panels show placeholder but hide data
+
+#### 3. Security & Scanning
+
+**What it does:** Enable real-time upload scanning for sensitive content
+
+**Options:**
+- ✅ **Enabled:** Scan every text file upload (< 5MB)
+- ❌ **Disabled:** Filename-only detection (default)
+
+**How to enable:**
+1. Go to Settings → Security & Scanning
+2. Toggle **"Enable Real-Time Upload Scanner"** to ON
+3. Click "Save Settings"
+
+**Scanner Specs:**
+- Scan Cap: 5 MB (physics is real)
+- Targets: Text files (logs, code, JSON, SQL)
+- Detection: High sensitivity (credit cards, AWS keys, private keys, SSNs)
+- Engagement Rules: Observe & Report (file remains attached, alarms go off)
+
+#### 4. Dinosaur Definitions (Heat Index Thresholds)
+
+**What it does:** Calibrate criteria for "Dead Weight"
+
+**Settings:**
+- **Large File Threshold:** Files larger than X MB (default: 10 MB)
+- **Ancient History Threshold:** Issues older than X days (default: 365 days)
+
+**How to configure:**
+1. Go to Settings → Dinosaur Definitions
+2. Enter thresholds (1-1000 MB, 1-3650 days)
+3. Click "Update Rules"
 
 ---
 
@@ -348,19 +518,20 @@ Choose whether to scan the **entire site** or **selected projects**.
 ### Viewing Audit Logs
 
 1. Open **Attachment Architect**
-2. Click the **"Audit Log"** tab
+2. Scroll to **"The Paper Trail"** section in Settings tab
 
 ### What's Logged
 
-Every action is recorded:
+Every action is recorded with full context:
 
 | Action | Details Logged |
 |--------|----------------|
-| **Scan Started** | Who, when, scan ID |
-| **Scan Completed** | Duration, files found, duplicates detected |
+| **Scan Started** | Who, when, scan ID, scope |
+| **Scan Completed** | Duration, files found, duplicates detected, waste % |
+| **Scan Cancelled** | Who, when, progress at cancellation |
 | **Scan Failed** | Error message, context |
-| **Files Deleted** | Who, what, when, where, why |
-| **Settings Changed** | What changed, old value, new value |
+| **Files Deleted** | Who, what, when, where, why, count |
+| **Settings Changed** | What changed, old value, new value, who |
 
 ### Filtering Logs
 
@@ -368,16 +539,22 @@ Use filters to find specific events:
 
 - **Action Type:** Scan, Deletion, Settings
 - **User:** Filter by who performed the action
-- **Date Range:** Specific time period
 - **Issue Key:** Actions related to specific issues
+- **Date Range:** Specific time period
 
-### Exporting Logs
+### Expandable Details
 
-**For compliance reporting:**
+Click the **▶** arrow to expand event details:
+- Full context for each action
+- Before/after values for settings changes
+- List of affected issues for deletions
+- Waste percentage indicators for scans
 
-1. Apply filters to narrow down events
-2. Take screenshots or copy data
-3. Contact support for bulk export (coming soon)
+### Pagination
+
+- Configurable items per page (10, 25, 50, 100)
+- Navigate between pages
+- Shows range (e.g., "Showing 1 to 25 of 150 entries")
 
 ---
 
@@ -389,6 +566,7 @@ Use filters to find specific events:
 - Full dashboard access
 - Unlimited scans
 - All analytics and visualizations
+- Security risk detection
 - Audit trail
 - Up to **20 file deletions** (lifetime limit)
 
@@ -425,6 +603,8 @@ Look for the banner at the top of the dashboard:
   - ✅ View dashboard
   - ✅ Run scans
   - ✅ See analytics
+  - ✅ View security risks
+  - ✅ View audit logs
 - You cannot:
   - ❌ Delete files
   - ❌ Change settings
@@ -442,8 +622,9 @@ Look for the banner at the top of the dashboard:
 **Solutions:**
 1. Refresh the page (scan continues in background)
 2. Wait 5 more minutes (large instances take time)
-3. Check Jira status page for outages
-4. Contact support if still stuck after 30 minutes
+3. Check Phase 1 reassurance banner (collecting IDs is slow)
+4. Check Jira status page for outages
+5. Contact support if still stuck after 30 minutes
 
 #### Scan Failed
 
@@ -454,6 +635,15 @@ Look for the banner at the top of the dashboard:
 2. Check if you have admin permissions
 3. Verify Jira instance is accessible
 4. Contact support with error message
+
+#### Can't Cancel Scan
+
+**Symptoms:** Cancel button not working
+
+**Solutions:**
+1. Wait for current batch to complete (up to 5 minutes)
+2. Refresh page to see updated status
+3. Scan will auto-cancel at next checkpoint
 
 ### Deletion Issues
 
@@ -489,7 +679,7 @@ Look for the banner at the top of the dashboard:
 **Cause:** No scan has been run yet
 
 **Solution:**
-1. Click **"Start New Scan"**
+1. Click **"Start the Audit"**
 2. Wait for scan to complete
 3. Dashboard will populate automatically
 
@@ -500,6 +690,15 @@ Look for the banner at the top of the dashboard:
 **Solution:**
 1. Run a new scan to refresh data
 2. Dashboard shows data from last completed scan
+3. Check scope badge - may be scanning subset of projects
+
+#### Stale Data Mode
+
+**Symptoms:** Banner says "Showing data from previous scan"
+
+**Explanation:** This is normal during re-scans. Dashboard shows last completed results until new scan finishes.
+
+**Solution:** Wait for scan to complete, then data auto-refreshes.
 
 ---
 
@@ -508,16 +707,19 @@ Look for the banner at the top of the dashboard:
 ### General Questions
 
 **Q: Does the app read my file contents?**  
-A: No. We only read metadata (filename, size, upload date). We never access file contents.
+A: No (by default). We only read metadata (filename, size, upload date). Deep content scanning is opt-in and only for text files < 5MB.
 
 **Q: Is my data secure?**  
 A: Yes. All data stays in your Jira instance. We use Atlassian Forge (SOC 2, ISO 27001 certified).
 
 **Q: Can I undo a deletion?**  
-A: No. Deletions are permanent. Always review carefully before deleting.
+A: No. Deletions are permanent. Always review carefully and create backups before deleting.
 
 **Q: How often should I scan?**  
-A: Monthly for most instances. Weekly for high-activity instances.
+A: Monthly for most instances. Weekly for high-activity instances. After major migrations or cleanups.
+
+**Q: Can I scan specific projects only?**  
+A: Yes! Use the Scan Scope feature in Settings to select specific projects.
 
 ### Technical Questions
 
@@ -525,13 +727,27 @@ A: Monthly for most instances. Weekly for high-activity instances.
 A: 2-5 minutes for 10,000 issues. Scales linearly with instance size.
 
 **Q: Does scanning affect Jira performance?**  
-A: No. Scans run in the background with minimal impact.
+A: No. Scans run in the background with minimal impact. Uses scheduled triggers every 5 minutes.
 
 **Q: What happens if I close the browser during a scan?**  
 A: Scan continues in the background. Refresh the page to see progress.
 
 **Q: Can multiple admins use the app?**  
 A: Yes. All Jira admins can access the app. Actions are logged per user.
+
+**Q: What's the difference between duplicates and trash files?**  
+A: Duplicates are exact copies of the same file. Trash files are low-value files (logs, dumps, temp) regardless of duplication.
+
+### Security Questions
+
+**Q: What security risks does the app detect?**  
+A: Filename-based detection (config files, keys, dumps) by default. Optional deep content scanning for passwords, API keys, credit cards, SSNs.
+
+**Q: Does deep scanning read all my files?**  
+A: No. Only text files < 5MB when explicitly enabled in Settings. Binary files are never scanned.
+
+**Q: Can I delete files directly from Security Risks tab?**  
+A: No. Security Risks is read-only for awareness. Remediate through issue management.
 
 ### Billing Questions
 
@@ -601,12 +817,15 @@ A: Follow Atlassian's standard refund policy (typically 30 days).
 
 | Task | Steps |
 |------|-------|
-| **Run a scan** | Dashboard → "Start New Scan" → Confirm |
+| **Run a scan** | Dashboard → "Start the Audit" → Choose Scope → Confirm |
 | **View duplicates** | Action Center → Quick Wins tab |
 | **Delete duplicates** | View Details → Select files → "Delete Duplicates" |
+| **Remove trash files** | Storage Hygiene → Select files → Download Backup → Permanent Delete |
+| **Check security risks** | Security Risks tab → Review by severity |
 | **Check trial status** | Look at banner at top of dashboard |
 | **Enable Activity Panel** | Settings → Toggle ON → Save |
-| **View audit log** | Audit Log tab → Apply filters |
+| **Configure scan scope** | Settings → Scan Scope → Select projects → Save |
+| **View audit log** | Settings → Scroll to "The Paper Trail" → Apply filters |
 
 ### Keyboard Shortcuts
 
@@ -623,14 +842,20 @@ A: Follow Atlassian's standard refund policy (typically 30 days).
 - Run scans monthly
 - Review Quick Wins first
 - Check canonical file before deleting
+- Create backups before mass deletion
 - Provide deletion reasons for audit trail
 - Enable Activity Panel for transparency
+- Review security risks regularly
+- Use project scoping for targeted scans
 
 ❌ **DON'T:**
 - Delete files without reviewing
 - Run multiple scans simultaneously
 - Ignore trial limit warnings
 - Delete canonical files manually
+- Delete trash files without backup
+- Ignore active issue warnings
+- Rush through security risk remediation
 
 ---
 
@@ -648,39 +873,65 @@ A: Follow Atlassian's standard refund policy (typically 30 days).
 
 **Scan:** The process of analyzing all attachments in your Jira instance
 
-**Storage Waste:** Space consumed by duplicate files
+**Storage Waste:** Space consumed by duplicate files and trash files
 
 **Trial Limit:** Maximum deletions allowed during free trial (20 files)
+
+**Trash Files:** Low-value files (logs, dumps, temp) that consume storage
+
+**Frozen Dinosaurs:** Large files on old issues (highest cleanup priority)
+
+**Heat Index:** Priority score based on file size × issue age
+
+**Scope:** Which projects are included in scan (entire site or selected)
+
+**Stale Data Mode:** Dashboard shows previous scan results during re-scan
+
+**Deep Content Scanning:** Optional feature to scan file contents for sensitive data
+
+**Security Risk:** File with potential security concerns (PII, credentials, etc.)
 
 ---
 
 ## Version History
 
-### v3.15.0 (November 2025)
-- Unified progress bar + ETA (incl. first scans)
-- Stale‑data mode for uninterrupted dashboards
-- Storage Hygiene: detect and bulk delete logs/dumps/temp/system files
-- Project scoping (scan entire site or selected projects)
-- Heat Index improvements and Quick Wins polishing
-- Audit log enhancements
+### v4.0.0 (January 2025)
+- ✅ Storage Hygiene: Detect and bulk delete trash files (logs, dumps, temp, system)
+- ✅ Security Risks: Detect sensitive files by filename patterns
+- ✅ Deep Content Scanning: Optional scanning for PII, credentials, secrets
+- ✅ Project Scoping: Scan entire site or selected projects
+- ✅ Unified Progress Bar + ETA for all scans
+- ✅ Stale Data Mode: Uninterrupted dashboard during re-scans
+- ✅ Enhanced Audit Log: Expandable details, email on hover
+- ✅ Cancel Scan: Graceful cancellation with progress preservation
+- ✅ Heat Index Improvements: Scatter chart visualization
+- ✅ User Analysis: Email display on hover
+- ✅ Witty IT-Savvy tone throughout UI
 
-### v3.0.0 (January 2025)
+### v3.15.0 (November 2024)
+- ✅ Unified progress bar + ETA (incl. first scans)
+- ✅ Stale‑data mode for uninterrupted dashboards
+- ✅ Project scoping (scan entire site or selected projects)
+- ✅ Heat Index improvements and Quick Wins polishing
+- ✅ Audit log enhancements
+
+### v3.0.0 (January 2024)
 - ✅ Activity Panel settings fix
 - ✅ Enhanced security (SAST + SCA scans)
 - ✅ Production deployment
 - ✅ Improved error handling
 
-### v2.0.0 (December 2024)
+### v2.0.0 (December 2023)
 - ✅ Bulk deletion (up to 100 files)
 - ✅ Trial limit enforcement
 - ✅ Dashboard real-time updates
 - ✅ Comprehensive audit logging
 
-### v1.0.0 (November 2024)
+### v1.0.0 (November 2023)
 - ✅ Initial release
 - ✅ Basic scanning and analytics
 - ✅ Duplicate detection
-- �� Manual cleanup
+- ✅ Manual cleanup
 
 ---
 
@@ -707,4 +958,4 @@ A: Follow Atlassian's standard refund policy (typically 30 days).
 
 ---
 
-*Last updated: November 2025 | Version 3.15.0*
+*Last updated: January 2025 | Version 3.29.0*
