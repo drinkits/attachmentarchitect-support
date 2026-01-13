@@ -1,5 +1,7 @@
-# Attachment Architect - User Guide
-## Smart Attachment Management for Jira Cloud
+# Attachment Architect — Complete User Guide
+
+A comprehensive guide to all features and functionality of Attachment Architect for Jira Cloud.
+
 ---
 
 ## Table of Contents
@@ -397,6 +399,34 @@ Search and filter attachments across your Jira instance. Manage personal folders
 - **Virtualized List** — Efficient rendering for large datasets
 - **Issue Links** — Click to navigate to the issue
 
+### JQL Mode: My Filters (Starred Filters)
+
+When using **JQL** mode in Attachment Explorer, you can quickly load your starred Jira filters.
+
+**How to use:**
+1. Switch to **JQL** mode.
+2. Click the ⭐ icon in the toolbar (tooltip: **"Load saved filter"**).
+3. Select one of your starred Jira filters.
+4. The filter JQL is inserted into the JQL input (you can still edit it before searching).
+
+**Notes:**
+- Only shows filters you have starred in Jira.
+- If you have many filters, a search input appears in the popup.
+
+### Image Preview: Multiple Images + Select
+
+Clicking an image attachment opens a full-screen image preview where you can navigate through all images and select while reviewing.
+
+**What you can do in the preview:**
+- **Next/Previous image:** use on-screen arrows or keyboard arrow keys.
+- **Select/Deselect current image:** click the checkbox in the toolbar or press **Space**.
+- **Download:** use the download button.
+- **Zoom:** use zoom controls (scroll/pinch supported).
+- **Close:** press **Esc**.
+
+**Notes:**
+- Selection is synced with the main results selection.
+
 ### Folders (Personal Collections)
 
 Personal folders for organizing attachments by topic or project.
@@ -622,11 +652,14 @@ Look for the banner at the top of the dashboard:
 | Shortcut | Action |
 |----------|--------|
 | `Ctrl/Cmd + R` | Refresh dashboard |
-| `Esc` | Close modal |
+| `Esc` | Close modal / close image preview |
 | `Tab` | Navigate between fields |
 | `Enter` | Confirm action |
+| `Space` | Toggle selection in image preview (when open) |
+| `←` / `→` | Previous/next image in image preview (when open) |
 
 ---
 
-For the latest updates and feature announcements, visit the Atlassian Marketplace listing.
+**Last Updated:** January 2026 | **Version:** 4.0.0
 
+For the latest updates and feature announcements, visit the Atlassian Marketplace listing.
