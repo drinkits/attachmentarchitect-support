@@ -68,9 +68,8 @@ The Dashboard displays a summary of your most recent scan with key performance i
 
 1. Click **"Start the Audit"** button
 2. Select your scan scope:
-   - **All Issues** — Scan entire instance
-   - **By Projects** — Scan specific projects only
-   - **By JQL** — Scan issues matching custom JQL query
+   - **Full Instance** — Scan the entire Jira instance
+   - **Specific Projects** — Scan only selected projects
 3. Confirm the scan
 
 #### Step 2: Monitor Progress
@@ -326,11 +325,10 @@ When enabled, scans text files < 5MB for:
 ### Settings Section
 
 #### Scan Scope Configuration
-- **Purpose** — Define which issues are scanned
+- **Purpose** — Define which data is scanned
 - **Options**:
-  - All Issues (entire instance)
-  - By Projects (select specific projects)
-  - By JQL (custom JQL query)
+  - **Full Instance** — Scan the entire Jira instance
+  - **Specific Projects** — Scan only selected projects
 
 #### Activity Panel
 - **Purpose** — Show attachment deletion history on issues
