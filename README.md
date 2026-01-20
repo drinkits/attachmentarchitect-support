@@ -1,4 +1,4 @@
-# Attachment Architect — Complete User Guide
+# Attachment Architect - Complete User Guide
 
 A comprehensive guide to all features and functionality of Attachment Architect for Jira Cloud.
 
