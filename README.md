@@ -54,6 +54,89 @@ When enabled by an admin, each Jira issue displays an **Attachment Activity Pane
 - Canonical file references
 - Links to related issues
 
+### Issue View Attachment Panel (Issue Panel)
+
+Attachment Architect adds a dedicated **Attachments** panel inside the Jira Issue View using Jira’s **Issue Panel** module.
+
+**Where you’ll find it:**
+- Open any Jira issue.
+- Open the **Attachments** panel provided by Attachment Architect (it appears as its own panel in the issue view).
+
+**What it is:**
+- A compact, virtualized attachment table for the *current issue only*.
+- Designed for quick triage: filter, select, preview, and run bulk actions.
+
+**Toolbar (top of the panel):**
+- **Filter filename…** (instant, client-side)
+- **File Type** filter (dropdown)
+- **Size** filter (dropdown)
+- **Expand** button (opens the full Attachment Explorer in a modal)
+
+**Table columns (Issue Panel view):**
+- **Select** (checkbox per row + select-all in header)
+- **Type** (file-type icon / thumbnail)
+- **Name** (filename link; clicking it downloads the attachment)
+- **Folders** (folder chip; opens the file’s folder(s) in the full Explorer modal)
+- **Size**
+- **Uploaded**
+
+**What you can do:**
+- **Select files:** single, multi-select, or select-all
+- **Download:** click the filename to download a single file
+- **Preview:** click the file-type icon/thumbnail to open preview
+- **Folders:** click a folder chip to open the full Explorer focused on that folder
+- **Bulk actions:** when one or more files are selected, a floating action bar appears with:
+  - **Add to Folder**
+  - **Download**
+  - **Delete**
+- **Expand:** open the full Attachment Explorer in a modal, pre-scoped to the current issue
+
+#### Preview behavior (Issue View)
+
+In the Issue Panel, preview is opened by clicking the **file-type icon/thumbnail**.
+
+**Supported previews:**
+- **Images & videos:** full-screen gallery preview (includes navigation)
+- **PDF:** in-browser preview
+- **Word (.docx):** in-browser preview
+- **Code/text:** in-browser code viewer (search + navigation)
+- **ZIP / archives:** in-browser archive inspector with per-file preview/download
+
+#### Preview support matrix (formats & limits)
+
+The table below summarizes what can be previewed in-browser and the hard size limits enforced for safety and performance.
+
+| Category | Preview | How it opens | Size limit | Notes |
+|---|---|---|---:|---|
+| Images | Yes | Type icon/thumbnail → Preview | 15 MB | Also supports image MIME types (`image/*`). |
+| Videos | Yes (limited) | Type icon → Preview | 100 MB | Only browser-compatible formats are supported (MP4, WebM). WebM may not play in Safari. |
+| PDF | Yes | Type icon → Preview | 15 MB | Larger PDFs are download-only. |
+| Word (.docx) | Yes | Type icon → Preview | 15 MB | `.doc` (legacy Word) is not supported for preview. |
+| Code / Text | Yes | Type icon → Preview | 5 MB | Syntax highlighting is disabled above 1 MB (raw text mode; search still works). |
+| Log / TXT | Yes | Type icon → Preview | 10 MB | Uses fast regex highlighting; higher limit than code files. |
+| ZIP archives | Yes (browse) | Type icon → Browse archive | 500 MB (browse) | Browsing reads archive structure without downloading the full ZIP. |
+| Files inside ZIP | Yes (if supported type) | ZIP → Preview on an entry | Per type (see above) | Single-file extraction has a hard limit (50 MB) due to Forge timeouts; larger entries require downloading the full ZIP. |
+
+**ZIP extraction limit (inside ZIP viewer):**
+- Maximum single-file extraction (preview/download of an entry): **50 MB**.
+
+**ZIP Preview — Nested preview (inside archive):**
+- You can preview supported files inside a ZIP without downloading the whole archive.
+- Nested preview opens on top of the ZIP viewer.
+
+**Keyboard (ESC) rules:**
+- For ZIP nested previews: **ESC closes the nested preview first**, then **ESC closes the ZIP viewer**.
+- For other previews: **ESC closes the preview**.
+
+**Cinematic Mode footer (ZIP preview):**
+- ZIP previews in Issue View include a “CINEMATIC MODE” footer in the letterbox area.
+- This is purely UI copy (does not change functionality).
+
+#### Expand to full Explorer
+
+Use **Expand** in the Issue panel toolbar to open the full **Attachment Explorer** in a modal.
+- The Explorer opens pre-scoped to the current issue using JQL.
+
 ---
 
 ## Dashboard
@@ -734,3 +817,5 @@ Look for the banner at the top of the dashboard:
 ---
 
 **Last Updated:** January 2026
+
+For the latest updates and feature announcements, visit the Atlassian Marketplace listing.
