@@ -120,7 +120,7 @@ The table below summarizes what can be previewed in-browser and the hard size li
 **ZIP extraction limit (inside ZIP viewer):**
 - Maximum single-file extraction (preview/download of an entry): **50 MB**.
 
-**ZIP Preview — Nested preview (inside archive):**
+**ZIP Preview - Nested preview (inside archive):**
 - You can preview supported files inside a ZIP without downloading the whole archive.
 - Nested preview opens on top of the ZIP viewer.
 
@@ -151,14 +151,14 @@ The Dashboard displays a summary of your most recent scan with key performance i
 
 1. Click **"Start the Audit"** button
 2. Select your scan scope:
-   - **Full Instance** — Scan the entire Jira instance
-   - **Specific Projects** — Scan only selected projects
+   - **Full Instance** - Scan the entire Jira instance
+   - **Specific Projects** - Scan only selected projects
 3. Confirm the scan
 
 #### Step 2: Monitor Progress
 
 - Real-time progress bar with percentage and ETA
-- Can close browser window — scan continues in background
+- Can close browser window - scan continues in background
 - Can cancel scan with **Cancel** button
 - Estimated duration shown based on issue count
 
@@ -216,9 +216,9 @@ After scanning, explore your data across 7 dimensions:
 
 The dashboard highlights the **top 3 duplicate files** with the biggest impact:
 
-- **File Name** — The duplicate file
-- **Total Wasted Space** — Storage wasted (e.g., "245 MB from 49 copies")
-- **Action** — View details or delete
+- **File Name** - The duplicate file
+- **Total Wasted Space** - Storage wasted (e.g., "245 MB from 49 copies")
+- **Action** - View details or delete
 
 Click **"View Details"** to see all locations where the file appears.
 
@@ -273,7 +273,7 @@ Find and delete duplicate files to reclaim storage space.
 
 ### Purpose
 
-Automatically detect and remove "trash" files — low-value files that consume storage without providing value.
+Automatically detect and remove "trash" files - low-value files that consume storage without providing value.
 
 ### What Gets Detected as Trash
 
@@ -287,7 +287,7 @@ Automatically detect and remove "trash" files — low-value files that consume s
 
 ### Features
 
-- **Sortable Table** — Click column headers to sort by:
+- **Sortable Table** - Click column headers to sort by:
   - File Name (alphabetical)
   - Issue Key
   - Waste Impact (size)
@@ -300,9 +300,9 @@ Automatically detect and remove "trash" files — low-value files that consume s
   - Filter by issue status
   - Filter by age range
 
-- **Pagination** — Configurable items per page (10, 25, 50, 100)
+- **Pagination** - Configurable items per page (10, 25, 50, 100)
 
-- **Selection** — Select individual files or all files on current page
+- **Selection** - Select individual files or all files on current page
 
 ### Deletion Process
 
@@ -317,11 +317,11 @@ Automatically detect and remove "trash" files — low-value files that consume s
 
 ### Safety Features
 
-- **Active Issue Warning** — Files on active issues highlighted in yellow
-- **Backup Strategy Modal** — Directs you to Jira's native backup manager
-- **Risk Acknowledgment** — Must acknowledge risks before deleting
-- **Type-to-Confirm** — Extra confirmation for bulk deletes
-- **Full Audit Trail** — Every deletion is logged with context
+- **Active Issue Warning** - Files on active issues highlighted in yellow
+- **Backup Strategy Modal** - Directs you to Jira's native backup manager
+- **Risk Acknowledgment** - Must acknowledge risks before deleting
+- **Type-to-Confirm** - Extra confirmation for bulk deletes
+- **Full Audit Trail** - Every deletion is logged with context
 
 ### Best Practices
 
@@ -369,11 +369,11 @@ Identify files with potential security concerns based on filename patterns and o
 
 ### Features
 
-- **KPI Cards** — Summary metrics by severity level
-- **Filterable Table** — Click severity cards to filter
-- **Sortable Columns** — Sort by severity, filename, issue, etc.
-- **Pagination** — Configurable items per page
-- **Deep Content Scanning** (Optional) — Scan text files for sensitive data
+- **KPI Cards** - Summary metrics by severity level
+- **Filterable Table** - Click severity cards to filter
+- **Sortable Columns** - Sort by severity, filename, issue, etc.
+- **Pagination** - Configurable items per page
+- **Deep Content Scanning** (Optional) - Scan text files for sensitive data
 
 ### Deep Content Scanning
 
@@ -389,17 +389,17 @@ When enabled, scans text files < 5MB for:
 
 ### Actions
 
-- **Review Content** — Click to scan file (if scannable)
-- **Download** — Download file for local inspection
-- **Navigate to Issue** — Open the issue containing the file
-- **Scan Results Modal** — Shows findings from deep content scan
+- **Review Content** - Click to scan file (if scannable)
+- **Download** - Download file for local inspection
+- **Navigate to Issue** - Open the issue containing the file
+- **Scan Results Modal** - Shows findings from deep content scan
 
 ### Important Notes
 
-- **Read-Only View** — Security Risks tab is for awareness only
-- **No Direct Deletion** — Remediate through issue management
-- **Privacy-First** — Only scans filenames by default
-- **Opt-In Scanning** — Deep content scanning must be enabled in Settings
+- **Read-Only View** - Security Risks tab is for awareness only
+- **No Direct Deletion** - Remediate through issue management
+- **Privacy-First** - Only scans filenames by default
+- **Opt-In Scanning** - Deep content scanning must be enabled in Settings
 
 ---
 
@@ -408,36 +408,36 @@ When enabled, scans text files < 5MB for:
 ### Settings Section
 
 #### Scan Scope Configuration
-- **Purpose** — Define which data is scanned
+- **Purpose** - Define which data is scanned
 - **Options**:
-  - **Full Instance** — Scan the entire Jira instance
-  - **Specific Projects** — Scan only selected projects
+  - **Full Instance** - Scan the entire Jira instance
+  - **Specific Projects** - Scan only selected projects
 
 #### Activity Panel
-- **Purpose** — Show attachment deletion history on issues
-- **Default** — Disabled (stealth mode)
-- **Enable** — Settings → Activity Panel → Toggle ON
+- **Purpose** - Show attachment deletion history on issues
+- **Default** - Disabled (stealth mode)
+- **Enable** - Settings → Activity Panel → Toggle ON
 
 #### Security Scanning
-- **Purpose** — Enable deep content scanning for sensitive data
-- **Default** — Disabled
-- **Enable** — Settings → Security & Scanning → Toggle ON
+- **Purpose** - Enable deep content scanning for sensitive data
+- **Default** - Disabled
+- **Enable** - Settings → Security & Scanning → Toggle ON
 
 #### Heat Index Thresholds
-- **Large File Threshold** (MB) — Default: 10 MB
-- **Ancient History Threshold** (days) — Default: 365 days
+- **Large File Threshold** (MB) - Default: 10 MB
+- **Ancient History Threshold** (days) - Default: 365 days
 - Customize what qualifies as a "Frozen Dinosaur"
 
 #### Auto-Pilot (Automated Scanning)
-- **Purpose** — Schedule automatic scans
-- **Frequency** — Daily, Weekly, or Monthly
-- **Prerequisite** — At least one completed scan required
-- **Enable** — Settings → Auto-Pilot → Toggle ON
+- **Purpose** - Schedule automatic scans
+- **Frequency** - Daily, Weekly, or Monthly
+- **Prerequisite** - At least one completed scan required
+- **Enable** - Settings → Auto-Pilot → Toggle ON
 
 #### Factory Reset
-- **Purpose** — Wipe all index data and start fresh
-- **Use Case** — Emergency recovery if scanner is stuck
-- **Warning** — Dangerous operation, use only when necessary
+- **Purpose** - Wipe all index data and start fresh
+- **Use Case** - Emergency recovery if scanner is stuck
+- **Warning** - Dangerous operation, use only when necessary
 
 ### Audit Log
 
@@ -453,10 +453,10 @@ Displays all system events with full context:
 | **Settings Changed** | What changed, old value, new value, who |
 
 #### Filtering Options
-- **Action Type** — Scan, Deletion, Settings
-- **User** — Filter by who performed the action
-- **Issue Key** — Actions related to specific issues
-- **Date Range** — Specific time period
+- **Action Type** - Scan, Deletion, Settings
+- **User** - Filter by who performed the action
+- **Issue Key** - Actions related to specific issues
+- **Date Range** - Specific time period
 
 #### Expandable Details
 Click the **▶** arrow to expand event details:
@@ -475,10 +475,10 @@ Search and filter attachments across your Jira instance. Manage personal folders
 
 ### Search & Filter Features
 
-- **Search** — Find attachments by filename
-- **Filters** — Project, file type, size, author, age, etc.
-- **Virtualized List** — Efficient rendering for large datasets
-- **Issue Links** — Click to navigate to the issue
+- **Search** - Find attachments by filename
+- **Filters** - Project, file type, size, author, age, etc.
+- **Virtualized List** - Efficient rendering for large datasets
+- **Issue Links** - Click to navigate to the issue
 
 ### JQL Mode: My Filters (Starred Filters)
 
@@ -600,18 +600,18 @@ Personal folders for organizing attachments by topic or project.
 
 #### Limits
 
-- **Max folders per user** — 20
-- **Max files per folder** — 500
-- **Scope** — Personal (tied to your user account)
+- **Max folders per user** - 20
+- **Max files per folder** - 500
+- **Scope** - Personal (tied to your user account)
 
 #### Smart Caching
 
 Folders use intelligent caching to minimize Forge Storage operations:
 
-- **Parallel Loading** — All folder items loaded simultaneously
-- **Cache Warming** — Background pre-loading of folder data
-- **Optimistic Updates** — Cache updated before storage write
-- **Membership Cache** — Pre-computed file-to-folder mappings
+- **Parallel Loading** - All folder items loaded simultaneously
+- **Cache Warming** - Background pre-loading of folder data
+- **Optimistic Updates** - Cache updated before storage write
+- **Membership Cache** - Pre-computed file-to-folder mappings
 
 ---
 
@@ -623,9 +623,9 @@ Display attachment deletion history on Jira issues for transparency and complian
 
 ### What It Shows
 
-- **Deletion Events** — What was deleted, when, by whom
-- **Canonical File** — Reference to the original file (if accessible)
-- **Issue Links** — Links to related issues
+- **Deletion Events** - What was deleted, when, by whom
+- **Canonical File** - Reference to the original file (if accessible)
+- **Issue Links** - Links to related issues
 
 ### Enabling the Panel
 
@@ -702,7 +702,7 @@ Look for the banner at the top of the dashboard:
 **Solution:**
 - Dashboard displays data from the last completed scan
 - Run a new scan to refresh the data
-- Check the scope badge — may be scanning a subset of projects
+- Check the scope badge - may be scanning a subset of projects
 
 ### "Can't Delete (Permission Denied)"
 
@@ -741,23 +741,23 @@ Look for the banner at the top of the dashboard:
 
 ### ✅ DO
 
-- **Scan monthly** — Keep data fresh and accurate
-- **Review Quick Wins first** — Maximum impact with minimum effort
-- **Create backup before mass deletion** — Safety first
-- **Enable Activity Panel** — Transparency and compliance
-- **Review Security Risks regularly** — Catch issues early
-- **Use project scoping** — Targeted scans for specific areas
-- **Check issue status** — Avoid deleting from active work
+- **Scan monthly** - Keep data fresh and accurate
+- **Review Quick Wins first** - Maximum impact with minimum effort
+- **Create backup before mass deletion** - Safety first
+- **Enable Activity Panel** - Transparency and compliance
+- **Review Security Risks regularly** - Catch issues early
+- **Use project scoping** - Targeted scans for specific areas
+- **Check issue status** - Avoid deleting from active work
 
 ### ❌ DON'T
 
-- **Delete without reviewing** — Always check before deleting
-- **Ignore active issue warnings** — Yellow highlights are important
-- **Delete without backup** — Deletions are permanent
-- **Rush through security remediation** — Take time to investigate
-- **Delete canonical files manually** — App protects them for a reason
-- **Run multiple scans simultaneously** — Can cause conflicts
-- **Ignore trial limit warnings** — Plan ahead for subscription
+- **Delete without reviewing** - Always check before deleting
+- **Ignore active issue warnings** - Yellow highlights are important
+- **Delete without backup** - Deletions are permanent
+- **Rush through security remediation** - Take time to investigate
+- **Delete canonical files manually** - App protects them for a reason
+- **Run multiple scans simultaneously** - Can cause conflicts
+- **Ignore trial limit warnings** - Plan ahead for subscription
 
 ---
 
@@ -816,6 +816,6 @@ Look for the banner at the top of the dashboard:
 
 ---
 
-**Last Updated:** January 2026
+**Last Updated:** January 2026 | **Version:** 4.0.0
 
 For the latest updates and feature announcements, visit the Atlassian Marketplace listing.
