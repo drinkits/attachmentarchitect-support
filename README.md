@@ -102,6 +102,39 @@ In the Issue Panel, preview is opened by clicking the **file-type icon/thumbnail
 - **Code/text:** in-browser code viewer (search + navigation)
 - **ZIP / archives:** in-browser archive inspector with per-file preview/download
 
+#### OCR (Live Text) - Extract text from images
+
+Attachment Architect includes **OCR (Live Text)** for image attachments.
+
+**Where it works:**
+- **Attachment Explorer (Apps → Attachment Architect)**
+- **Mini Explorer in Issue View** (Attachment Architect **Attachments** Issue Panel)
+
+**What it does:**
+- Extracts selectable/copyable text from an image using a built-in text scanner.
+- Runs **client-side in your browser**.
+- OCR results are **not saved** to Jira or stored in Attachment Architect storage.
+
+**How to use (Attachment Explorer):**
+1. Open an image attachment preview.
+2. Click the **Live Text / OCR** control in the preview side panel.
+3. Pick a language (if results look wrong, switch language and rescan).
+4. Copy extracted text from the **Detected Text** panel.
+
+**How to use (Issue View Mini Explorer):**
+1. Open a Jira issue → open the Attachment Architect **Attachments** panel.
+2. Click an image file-type icon/thumbnail to open preview.
+3. Use the same **Live Text / OCR** panel to extract and copy text.
+
+**Limits & behavior:**
+- OCR is designed for screenshots and documents inside images.
+- Large images may be downscaled for performance.
+- If scanning takes too long, you’ll see a timeout message; try a smaller image or a different language.
+
+**Privacy & security notes:**
+- OCR output is ephemeral (in-memory only).
+- No PII is stored by the app; treat copied text like any other sensitive content.
+
 #### Preview support matrix (formats & limits)
 
 The table below summarizes what can be previewed in-browser and the hard size limits enforced for safety and performance.
@@ -816,6 +849,6 @@ Look for the banner at the top of the dashboard:
 
 ---
 
-**Last Updated:** January 2026 | **Version:** 4.0.0
+**Last Updated:** February 2026
 
 For the latest updates and feature announcements, visit the Atlassian Marketplace listing.
