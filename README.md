@@ -126,14 +126,42 @@ Attachment Architect includes **OCR (Live Text)** for image attachments.
 2. Click an image file-type icon/thumbnail to open preview.
 3. Use the same **Live Text / OCR** panel to extract and copy text.
 
+**Bundled languages (offline-ready):**
+OCR language packs are bundled with the app, so OCR works without reaching out to external services.
+
+Available languages:
+- English (eng)
+- German (deu)
+- French (fra)
+- Spanish (spa)
+- Italian (ita)
+- Portuguese (por)
+- Dutch (nld)
+- Sanctioned Cyrillic (Rus) (rus)
+- Polish (pol)
+- Ukrainian (ukr)
+- Czech (ces)
+- Swedish (swe)
+- Turkish (tur)
+- Japanese (jpn)
+- Korean (kor)
+- Chinese (Simplified) (chi_sim)
+- Hindi (hin)
+- Estonian (est)
+- Latvian (lav)
+- Lithuanian (lit)
+
 **Limits & behavior:**
 - OCR is designed for screenshots and documents inside images.
-- Large images may be downscaled for performance.
-- If scanning takes too long, you’ll see a timeout message; try a smaller image or a different language.
+- Maximum image dimension: **4000px** (larger images are downscaled).
+- Maximum input size (data URI): ~**25 MB**.
+- Timeout: **2 minutes** per scan.
+- If results look wrong, switch language and rescan.
 
 **Privacy & security notes:**
+- OCR runs client-side in your browser.
 - OCR output is ephemeral (in-memory only).
-- No PII is stored by the app; treat copied text like any other sensitive content.
+- No OCR text is stored by the app; treat copied text like any other sensitive content.
 
 #### Preview support matrix (formats & limits)
 
