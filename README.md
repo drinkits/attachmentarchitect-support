@@ -171,12 +171,19 @@ The table below summarizes what can be previewed in-browser and the hard size li
 |---|---|---|---:|---|
 | Images | Yes | Type icon/thumbnail → Preview | 15 MB | Also supports image MIME types (`image/*`). |
 | Videos | Yes (limited) | Type icon → Preview | 100 MB | Only browser-compatible formats are supported (MP4, WebM). WebM may not play in Safari. |
-| PDF | Yes | Type icon → Preview | 15 MB | Larger PDFs are download-only. |
+| PDF | Yes | Type icon → Preview | 15 MB | Larger PDFs are download-only. Text selection supported (see below). |
 | Word (.docx) | Yes | Type icon → Preview | 15 MB | `.doc` (legacy Word) is not supported for preview. |
+| Excel (.xlsx, .xls) | Yes | Type icon → Preview | 15 MB | Large spreadsheets are download-only. `.xlsx` (modern) is fully supported; `.xls` (legacy) has limited fidelity. |
 | Code / Text | Yes | Type icon → Preview | 5 MB | Syntax highlighting is disabled above 1 MB (raw text mode; search still works). |
 | Log / TXT | Yes | Type icon → Preview | 10 MB | Uses fast regex highlighting; higher limit than code files. |
 | ZIP archives | Yes (browse) | Type icon → Browse archive | 500 MB (browse) | Browsing reads archive structure without downloading the full ZIP. |
 | Files inside ZIP | Yes (if supported type) | ZIP → Preview on an entry | Per type (see above) | Single-file extraction has a hard limit (50 MB) due to Forge timeouts; larger entries require downloading the full ZIP. |
+
+**Excel preview notes:**
+- Supported formats: **.xlsx**, **.xls**
+- Preview size limit: **15 MB**
+- Excel files can also be previewed **inside ZIP archives** (subject to the same 15 MB per-file preview limit).
+- If an Excel file is above the preview limit, it becomes **download-only**.
 
 **ZIP extraction limit (inside ZIP viewer):**
 - Maximum single-file extraction (preview/download of an entry): **50 MB**.
@@ -192,6 +199,28 @@ The table below summarizes what can be previewed in-browser and the hard size li
 **Cinematic Mode footer (ZIP preview):**
 - ZIP previews in Issue View include a “CINEMATIC MODE” footer in the letterbox area.
 - This is purely UI copy (does not change functionality).
+
+#### PDF Text Selection & Copy
+
+PDF preview supports **native text selection** for PDFs that contain a text layer.
+
+**How to use:**
+1. Open a PDF attachment preview (click the file-type icon/thumbnail).
+2. Click and drag to select text directly on the PDF page.
+3. Use **Ctrl/Cmd + C** to copy the selected text.
+4. Paste into any application.
+
+**Where it works:**
+- **Attachment Explorer** (Apps → Attachment Architect)
+- **Issue View Mini Explorer** (Attachment Architect **Attachments** Issue Panel)
+
+**Limitations:**
+- **Scanned PDFs** (image-only) do not have a text layer — text selection will not work.
+- Text positioning depends on PDF structure; some PDFs may have imperfect selection alignment.
+- For scanned documents, use **OCR (Live Text)** on individual page screenshots instead.
+
+**Selection highlight:**
+- Selected text is highlighted with a blue overlay, visible on the dark "Cinema Mode" background.
 
 #### Expand to full Explorer
 
