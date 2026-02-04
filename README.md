@@ -174,8 +174,8 @@ The table below summarizes what can be previewed in-browser and the hard size li
 | PDF | Yes | Type icon → Preview | 15 MB | Larger PDFs are download-only. Text selection supported (see below). |
 | Word (.docx) | Yes | Type icon → Preview | 15 MB | `.doc` (legacy Word) is not supported for preview. |
 | Excel (.xlsx, .xls) | Yes | Type icon → Preview | 15 MB | Large spreadsheets are download-only. `.xlsx` (modern) is fully supported; `.xls` (legacy) has limited fidelity. |
-| Code / Text | Yes | Type icon → Preview | 5 MB | Syntax highlighting is disabled above 1 MB (raw text mode; search still works). |
-| Log / TXT | Yes | Type icon → Preview | 10 MB | Uses fast regex highlighting; higher limit than code files. |
+| Code / Text | Yes | Type icon → Preview | 10 MB | Syntax highlighting is disabled above 1 MB (raw text mode; search still works). |
+| Log / TXT | Yes | Type icon → Preview | 20 MB | Log/TXT preview is optimized for large text. |
 | ZIP archives | Yes (browse) | Type icon → Browse archive | 500 MB (browse) | Browsing reads archive structure without downloading the full ZIP. |
 | Files inside ZIP | Yes (if supported type) | ZIP → Preview on an entry | Per type (see above) | Single-file extraction has a hard limit (50 MB) due to Forge timeouts; larger entries require downloading the full ZIP. |
 
@@ -570,6 +570,20 @@ Search and filter attachments across your Jira instance. Manage personal folders
 - **Virtualized List** - Efficient rendering for large datasets
 - **Issue Links** - Click to navigate to the issue
 
+### Multi-select (Ctrl/Cmd + Click, Shift + Click)
+
+Attachment Explorer and the Issue View **Attachments** panel support OS-style multi-select:
+
+- **Click**: select a single row (clears previous selection)
+- **Ctrl/Cmd + Click**: toggle a row in/out of the current selection
+- **Shift + Click**: select a contiguous range between the last anchor row and the clicked row
+
+**Sorting & filtering behavior (important):**
+- Selection is tracked by **file ID**, so sorting/filtering will not “lose” your selected files.
+- The Shift-select **anchor** is a visual row index. When the list order changes (sort/filter), the anchor is reset to avoid selecting random rows.
+  - After a sort/filter, the first **Shift + Click** sets a new anchor.
+  - The next **Shift + Click** performs a range selection from that new anchor.
+
 ### JQL Mode: My Filters (Starred Filters)
 
 When using **JQL** mode in Attachment Explorer, you can quickly load your starred Jira filters.
@@ -621,11 +635,11 @@ Attachment Explorer supports in-browser preview for common code and text formats
 To keep the UI fast and avoid browser lockups, preview has hard limits:
 
 - **Code files** (most extensions below):
-  - Preview limit: **5 MB**
+  - Preview limit: **10 MB**
   - Syntax highlighting limit: **1 MB**
   - If file is **> 1 MB**, the viewer switches to **RAW** mode (plain text, search still works).
 - **Log files** (`.log`, `.out`, `.err`, `.txt`):
-  - Preview limit: **10 MB**
+  - Preview limit: **20 MB**
 
 If the file is above the preview limit, it will be **download-only**.
 
