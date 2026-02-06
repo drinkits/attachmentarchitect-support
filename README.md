@@ -106,6 +106,49 @@ In the Issue Panel, preview is opened by clicking the **file-type icon/thumbnail
 
 Attachment Architect includes **OCR (Live Text)** for image attachments.
 
+#### OCR → Comment (Make Searchable)
+
+Sometimes copying text isn’t enough - you want Jira to be able to **find it later**.
+
+**OCR → Comment** publishes the extracted OCR text into the issue as a **Jira comment**, so it becomes searchable via JQL (because Jira indexes comments).
+
+**Where it works:**
+- Image/video gallery preview (Issue View Attachments panel)
+- Attachment Explorer image preview (where the OCR panel is available)
+
+**Prerequisite:**
+- An admin must enable OCR publishing in **Settings**.
+
+**How to use:**
+1. Open an image preview.
+2. Open the **Detected Text** panel.
+3. Select a language (if needed) and run OCR.
+4. Optionally edit the text (cleanup obvious OCR garbage).
+5. Click **Make searchable**.
+
+**What happens next:**
+- The app posts (or updates) a structured comment on the issue.
+- The main action becomes **Copy JQL** so you can immediately search for it.
+
+**Update behavior (no comment spam):**
+- If OCR text for this attachment was already published and **hasn’t changed**, the app won’t repost it.
+- If you edit the text after publishing, the action switches to **Update comment**.
+
+**Search tips:**
+- After publishing, use **Copy JQL** and paste it into Jira search.
+- You can also search manually using:
+  - `comment ~ "<keyword>"`
+
+**Privacy & security notes:**
+- OCR runs client-side in your browser.
+- Publishing is explicit: nothing is sent to Jira until you click **Make searchable**.
+- Before posting, the app attempts to redact common sensitive patterns (emails, phone numbers, obvious secrets). Don’t rely on it as a compliance tool - read what you’re about to publish.
+
+**Common errors and what they mean:**
+- **"OCR publishing is off"** → admin hasn’t enabled the feature.
+- **"No comment rights"** → you don’t have permission to add/edit comments on that issue.
+- **"Rate limited"** → you hit the safety throttle; wait a bit and retry.
+
 **Where it works:**
 - **Attachment Explorer (Apps → Attachment Architect)**
 - **Mini Explorer in Issue View** (Attachment Architect **Attachments** Issue Panel)
@@ -215,7 +258,7 @@ PDF preview supports **native text selection** for PDFs that contain a text laye
 - **Issue View Mini Explorer** (Attachment Architect **Attachments** Issue Panel)
 
 **Limitations:**
-- **Scanned PDFs** (image-only) do not have a text layer — text selection will not work.
+- **Scanned PDFs** (image-only) do not have a text layer - text selection will not work.
 - Text positioning depends on PDF structure; some PDFs may have imperfect selection alignment.
 - For scanned documents, use **OCR (Live Text)** on individual page screenshots instead.
 
