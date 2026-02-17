@@ -1,968 +1,331 @@
-# Attachment Architect - Complete User Guide
+# Attachment Architect - User Guide (Jira Cloud)
 
-A comprehensive guide to all features and functionality of Attachment Architect for Jira Cloud.
+This guide documents the **current, implemented** Attachment Architect functionality.
 
 ---
 
 ## Table of Contents
 
-1. [Accessing the App](#accessing-the-app)
-2. [Dashboard](#dashboard)
-3. [Duplicates Management](#duplicates-management)
-4. [Storage Hygiene](#storage-hygiene)
-5. [Security Risks](#security-risks)
-6. [Settings & Audit Log](#settings--audit-log)
-7. [Attachment Explorer](#attachment-explorer)
-8. [Attachment Activity Panel](#attachment-activity-panel)
-9. [Licensing](#licensing)
-10. [Troubleshooting](#troubleshooting)
-11. [Best Practices](#best-practices)
-12. [Support](#support)
+1. [Where to Find Attachment Architect](#1-where-to-find-attachment-architect)
+2. [Admin Console (Mission Control + Command Deck)](#2-admin-console-mission-control--command-deck)
+3. [Scanning (Index Build)](#3-scanning-index-build)
+4. [Action Center](#4-action-center)
+   - [Security Risks](#security-risks)
+   - [Duplicates](#duplicates)
+   - [Storage Hygiene](#storage-hygiene)
+   - [Frozen Dinosaurs (Heat Index)](#frozen-dinosaurs-heat-index)
+5. [Deep Analytics](#5-deep-analytics)
+6. [Operations](#6-operations)
+   - [Scans (History, Export)](#scans-history-export)
+   - [Audit Log](#audit-log)
+   - [Settings](#settings)
+7. [Attachment Explorer (Public Global Page)](#7-attachment-explorer-public-global-page)
+   - [Basic vs Advanced (Raw JQL)](#basic-vs-advanced-raw-jql)
+   - [Live Explorer Safety Limits](#live-explorer-safety-limits)
+   - [Selection (Ctrl/Cmd + Click, Shift + Click)](#selection-ctrlcmd--click-shift--click)
+   - [Folders (Personal Collections)](#folders-personal-collections)
+8. [Issue View Modules](#8-issue-view-modules)
+   - [Attachments Issue Panel](#attachments-issue-panel)
+   - [Attachment Activity (Issue Context)](#attachment-activity-issue-context)
+9. [Preview & OCR](#9-preview--ocr)
+   - [Preview Matrix](#preview-matrix)
+   - [OCR (Live Text)](#ocr-live-text)
+   - [Make Searchable (OCR → Comment)](#make-searchable-ocr--comment)
+10. [Licensing](#10-licensing)
+11. [Troubleshooting](#11-troubleshooting)
+12. [Support](#12-support)
 
 ---
 
-## Accessing the App
+## 1. Where to Find Attachment Architect
 
-### Admin Dashboard (Settings)
+### Admin Console (for Jira Admins)
 
-Navigate to: **Settings (⚙️) → Apps → Attachment Architect**
+Go to: **Jira settings → Apps → Attachment Architect**
 
-The admin dashboard contains 5 main tabs:
+This is the control room:
+- Mission Control (KPIs + health)
+- Scans + Scan History
+- Action Center (Security / Duplicates / Hygiene / Heat Index)
+- Deep Analytics
+- Audit Log
+- Settings
 
-| Tab | Purpose |
-|-----|---------|
-| **Dashboard** | Scan results and KPI metrics |
-| **Duplicates** | Manage and delete duplicate files |
-| **Storage Hygiene** | Remove trash and low-value files |
-| **Security Risks** | Identify files with security concerns |
-| **Settings & Audit Log** | Configuration and activity history |
+### Attachment Explorer (for all users)
 
-### Public Explorer (Apps Menu)
+Go to: **Apps → Attachment Explorer**
 
-Navigate to: **Apps → Attachment Architect**
-
-Features:
-- Search attachments by name
-- Filter by metadata (project, type, size, author, age)
+This is the user-facing explorer:
+- Search attachments across Jira (Live mode)
+- Filter and sort
+- Preview files
 - Manage personal folders
-- View attachment details
+- Bulk actions (download / delete, if permitted)
 
-### Issue Context (Activity Panel)
+### Issue View modules
 
-When enabled by an admin, each Jira issue displays an **Attachment Activity Panel** showing:
-- Deletion history
-- Canonical file references
-- Links to related issues
-
-### Issue View Attachment Panel (Issue Panel)
-
-Attachment Architect adds a dedicated **Attachments** panel inside the Jira Issue View using Jira’s **Issue Panel** module.
-
-**Where you’ll find it:**
-- Open any Jira issue.
-- Open the **Attachments** panel provided by Attachment Architect (it appears as its own panel in the issue view).
-
-**What it is:**
-- A compact, virtualized attachment table for the *current issue only*.
-- Designed for quick triage: filter, select, preview, and run bulk actions.
-
-**Toolbar (top of the panel):**
-- **Filter filename…** (instant, client-side)
-- **File Type** filter (dropdown)
-- **Size** filter (dropdown)
-- **Expand** button (opens the full Attachment Explorer in a modal)
-
-**Table columns (Issue Panel view):**
-- **Select** (checkbox per row + select-all in header)
-- **Type** (file-type icon / thumbnail)
-- **Name** (filename link; clicking it downloads the attachment)
-- **Folders** (folder chip; opens the file’s folder(s) in the full Explorer modal)
-- **Size**
-- **Uploaded**
-
-**What you can do:**
-- **Select files:** single, multi-select, or select-all
-- **Download:** click the filename to download a single file
-- **Preview:** click the file-type icon/thumbnail to open preview
-- **Folders:** click a folder chip to open the full Explorer focused on that folder
-- **Bulk actions:** when one or more files are selected, a floating action bar appears with:
-  - **Add to Folder**
-  - **Download**
-  - **Delete**
-- **Expand:** open the full Attachment Explorer in a modal, pre-scoped to the current issue
-
-#### Preview behavior (Issue View)
-
-In the Issue Panel, preview is opened by clicking the **file-type icon/thumbnail**.
-
-**Supported previews:**
-- **Images & videos:** full-screen gallery preview (includes navigation)
-- **PDF:** in-browser preview
-- **Word (.docx):** in-browser preview
-- **Code/text:** in-browser code viewer (search + navigation)
-- **ZIP / archives:** in-browser archive inspector with per-file preview/download
-
-#### OCR (Live Text) - Extract text from images
-
-Attachment Architect includes **OCR (Live Text)** for image attachments.
-
-#### OCR → Comment (Make Searchable)
-
-Sometimes copying text isn’t enough - you want Jira to be able to **find it later**.
-
-**OCR → Comment** publishes the extracted OCR text into the issue as a **Jira comment**, so it becomes searchable via JQL (because Jira indexes comments).
-
-**Where it works:**
-- Image/video gallery preview (Issue View Attachments panel)
-- Attachment Explorer image preview (where the OCR panel is available)
-
-**Prerequisite:**
-- An admin must enable OCR publishing in **Settings**.
-
-**How to use:**
-1. Open an image preview.
-2. Open the **Detected Text** panel.
-3. Select a language (if needed) and run OCR.
-4. Optionally edit the text (cleanup obvious OCR garbage).
-5. Click **Make searchable**.
-
-**What happens next:**
-- The app posts (or updates) a structured comment on the issue.
-- The main action becomes **Copy JQL** so you can immediately search for it.
-
-**Update behavior (no comment spam):**
-- If OCR text for this attachment was already published and **hasn’t changed**, the app won’t repost it.
-- If you edit the text after publishing, the action switches to **Update comment**.
-
-**Search tips:**
-- After publishing, use **Copy JQL** and paste it into Jira search.
-- You can also search manually using:
-  - `comment ~ "<keyword>"`
-
-**Privacy & security notes:**
-- OCR runs client-side in your browser.
-- Publishing is explicit: nothing is sent to Jira until you click **Make searchable**.
-- Before posting, the app attempts to redact common sensitive patterns (emails, phone numbers, obvious secrets). Don’t rely on it as a compliance tool - read what you’re about to publish.
-
-**Common errors and what they mean:**
-- **"OCR publishing is off"** → admin hasn’t enabled the feature.
-- **"No comment rights"** → you don’t have permission to add/edit comments on that issue.
-- **"Rate limited"** → you hit the safety throttle; wait a bit and retry.
-
-**Where it works:**
-- **Attachment Explorer (Apps → Attachment Architect)**
-- **Mini Explorer in Issue View** (Attachment Architect **Attachments** Issue Panel)
-
-**What it does:**
-- Extracts selectable/copyable text from an image using a built-in text scanner.
-- Runs **client-side in your browser**.
-- OCR results are **not saved** to Jira or stored in Attachment Architect storage.
-
-**How to use (Attachment Explorer):**
-1. Open an image attachment preview.
-2. Click the **Live Text / OCR** control in the preview side panel.
-3. Pick a language (if results look wrong, switch language and rescan).
-4. Copy extracted text from the **Detected Text** panel.
-
-**How to use (Issue View Mini Explorer):**
-1. Open a Jira issue → open the Attachment Architect **Attachments** panel.
-2. Click an image file-type icon/thumbnail to open preview.
-3. Use the same **Live Text / OCR** panel to extract and copy text.
-
-**Bundled languages (offline-ready):**
-OCR language packs are bundled with the app, so OCR works without reaching out to external services.
-
-Available languages:
-- English (eng)
-- German (deu)
-- French (fra)
-- Spanish (spa)
-- Italian (ita)
-- Portuguese (por)
-- Dutch (nld)
-- Sanctioned Cyrillic (Rus) (rus)
-- Polish (pol)
-- Ukrainian (ukr)
-- Czech (ces)
-- Swedish (swe)
-- Turkish (tur)
-- Japanese (jpn)
-- Korean (kor)
-- Chinese (Simplified) (chi_sim)
-- Hindi (hin)
-- Estonian (est)
-- Latvian (lav)
-- Lithuanian (lit)
-
-**Limits & behavior:**
-- OCR is designed for screenshots and documents inside images.
-- Maximum image dimension: **4000px** (larger images are downscaled).
-- Maximum input size (data URI): ~**25 MB**.
-- Timeout: **2 minutes** per scan.
-- If results look wrong, switch language and rescan.
-
-**Privacy & security notes:**
-- OCR runs client-side in your browser.
-- OCR output is ephemeral (in-memory only).
-- No OCR text is stored by the app; treat copied text like any other sensitive content.
-
-#### Preview support matrix (formats & limits)
-
-The table below summarizes what can be previewed in-browser and the hard size limits enforced for safety and performance.
-
-| Category | Preview | How it opens | Size limit | Notes |
-|---|---|---|---:|---|
-| Images | Yes | Type icon/thumbnail → Preview | 15 MB | Also supports image MIME types (`image/*`). |
-| Videos | Yes (limited) | Type icon → Preview | 100 MB | Only browser-compatible formats are supported (MP4, WebM). WebM may not play in Safari. |
-| PDF | Yes | Type icon → Preview | 15 MB | Larger PDFs are download-only. Text selection supported (see below). |
-| Word (.docx) | Yes | Type icon → Preview | 15 MB | `.doc` (legacy Word) is not supported for preview. |
-| Excel (.xlsx, .xls) | Yes | Type icon → Preview | 15 MB | Large spreadsheets are download-only. `.xlsx` (modern) is fully supported; `.xls` (legacy) has limited fidelity. |
-| Code / Text | Yes | Type icon → Preview | 10 MB | Syntax highlighting is disabled above 1 MB (raw text mode; search still works). |
-| Log / TXT | Yes | Type icon → Preview | 20 MB | Log/TXT preview is optimized for large text. |
-| ZIP archives | Yes (browse) | Type icon → Browse archive | 500 MB (browse) | Browsing reads archive structure without downloading the full ZIP. |
-| Files inside ZIP | Yes (if supported type) | ZIP → Preview on an entry | Per type (see above) | Single-file extraction has a hard limit (50 MB) due to Forge timeouts; larger entries require downloading the full ZIP. |
-
-**Excel preview notes:**
-- Supported formats: **.xlsx**, **.xls**
-- Preview size limit: **15 MB**
-- Excel files can also be previewed **inside ZIP archives** (subject to the same 15 MB per-file preview limit).
-- If an Excel file is above the preview limit, it becomes **download-only**.
-
-**ZIP extraction limit (inside ZIP viewer):**
-- Maximum single-file extraction (preview/download of an entry): **50 MB**.
-
-**ZIP Preview - Nested preview (inside archive):**
-- You can preview supported files inside a ZIP without downloading the whole archive.
-- Nested preview opens on top of the ZIP viewer.
-
-**Keyboard (ESC) rules:**
-- For ZIP nested previews: **ESC closes the nested preview first**, then **ESC closes the ZIP viewer**.
-- For other previews: **ESC closes the preview**.
-
-**Cinematic Mode footer (ZIP preview):**
-- ZIP previews in Issue View include a “CINEMATIC MODE” footer in the letterbox area.
-- This is purely UI copy (does not change functionality).
-
-#### PDF Text Selection & Copy
-
-PDF preview supports **native text selection** for PDFs that contain a text layer.
-
-**How to use:**
-1. Open a PDF attachment preview (click the file-type icon/thumbnail).
-2. Click and drag to select text directly on the PDF page.
-3. Use **Ctrl/Cmd + C** to copy the selected text.
-4. Paste into any application.
-
-**Where it works:**
-- **Attachment Explorer** (Apps → Attachment Architect)
-- **Issue View Mini Explorer** (Attachment Architect **Attachments** Issue Panel)
-
-**Limitations:**
-- **Scanned PDFs** (image-only) do not have a text layer - text selection will not work.
-- Text positioning depends on PDF structure; some PDFs may have imperfect selection alignment.
-- For scanned documents, use **OCR (Live Text)** on individual page screenshots instead.
-
-**Selection highlight:**
-- Selected text is highlighted with a blue overlay, visible on the dark "Cinema Mode" background.
-
-#### Expand to full Explorer
-
-Use **Expand** in the Issue panel toolbar to open the full **Attachment Explorer** in a modal.
-- The Explorer opens pre-scoped to the current issue using JQL.
+Attachment Architect adds two issue-level modules:
+- **Attachments** issue panel (a compact attachment viewer)
+- **Attachment Activity** issue context panel (conditional)
 
 ---
 
-## Dashboard
+## 2. Admin Console (Mission Control + Command Deck)
 
-### Purpose
+When you open Attachment Architect Admin Console, it opens on **Mission Control**.
 
-The Dashboard displays a summary of your most recent scan with key performance indicators (KPIs) and multi-dimensional analysis views.
-
-### Scanning Workflow
-
-#### Step 1: Start a Scan
-
-1. Click **"Start the Audit"** button
-2. Select your scan scope:
-   - **Full Instance** - Scan the entire Jira instance
-   - **Specific Projects** - Scan only selected projects
-3. Confirm the scan
-
-#### Step 2: Monitor Progress
-
-- Real-time progress bar with percentage and ETA
-- Can close browser window - scan continues in background
-- Can cancel scan with **Cancel** button
-- Estimated duration shown based on issue count
-
-#### Step 3: View Results
-
-After completion, the dashboard displays:
-
-| Metric | Description |
-|--------|-------------|
-| **Digital Hoard** | Total attachment storage used |
-| **Déjà Vu Data** | Duplicate storage (potential savings) |
-| **Digital Landfill** | Trash file storage (logs, dumps, temp) |
-| **Panic Level** | Overall inefficiency percentage (0-100%) |
-
-### Analysis Views (Desktop Only)
-
-After scanning, explore your data across 7 dimensions:
-
-#### 1. Project Bloat Map
-- Storage usage per project (treemap visualization)
-- Identify which projects consume the most space
-- Color-coded by waste percentage (green/yellow/red)
-
-#### 2. File Type Analysis
-- Storage breakdown by file extension (bubble chart)
-- Identify oversized file types
-- Average file size per type
-
-#### 3. User Leaderboard
-- Storage usage per user
-- Top quota consumers
-- Duplicate upload patterns
-
-#### 4. Digital Archaeology
-- Storage by file age (stacked bar chart)
-- Age brackets: 0-90 days, 90-365 days, 1-2 years, 2-4 years, 4+ years
-- Identify candidates for archival
-
-#### 5. Workflow Analysis
-- Storage by issue status
-- Identify bottlenecks
-- See how much storage is in completed vs. active issues
-
-#### 6. Frozen Dinosaurs (Heat Index)
-- Large files on old issues (highest cleanup priority)
-- Heat score based on file size × issue age
-- Scatter chart visualization
-
-#### 7. Archive Candidates
-- Projects with no updates in 180+ days
-- Identify projects for archival
-- Contact project owners before cleanup
-
-### Quick Wins
-
-The dashboard highlights the **top 3 duplicate files** with the biggest impact:
-
-- **File Name** - The duplicate file
-- **Total Wasted Space** - Storage wasted (e.g., "245 MB from 49 copies")
-- **Action** - View details or delete
-
-Click **"View Details"** to see all locations where the file appears.
+Layout is a high-density “command deck”:
+- Left sidebar for navigation
+- Primary content with compact tables and charts
+- Empty states and errors explain what went wrong in plain language
 
 ---
 
-## Duplicates Management
+## 3. Scanning (Index Build)
 
-### Purpose
+### What a scan does
 
-Find and delete duplicate files to reclaim storage space.
+A scan builds an **attachment index** (metadata only) that powers:
+- dashboards
+- duplicates
+- hygiene
+- heat index
+- analytics
 
-### Main Features
+### Scope
 
-#### Quick Wins Tab
-- Highest-impact duplicates sorted by wasted space
-- Filterable by project and file type
-- Sortable columns
-- Pagination
+Admins can configure scope:
+- **Full instance**
+- **Specific projects**
+- **JQL scope** (when enabled in the UI)
 
-#### Bulk Cleanup
-- Select multiple duplicates
-- Delete in batches (50 files per operation)
-- Confirmation modal with type-to-confirm safety check
+### Progress and cancellation
 
-#### Duplicate Details Modal
-- Shows all locations where the file appears
-- **Canonical file** (oldest copy) is marked with ✅ and kept safe
-- Links to all affected Jira issues
-- File metadata (size, upload date, author)
-
-### Deletion Process
-
-1. Open the **Duplicates** tab
-2. Review the list of duplicate files
-3. Click **"View Details"** on any file to see all copies
-4. Select duplicates to delete (canonical file is protected)
-5. Click **"Delete Selected"**
-6. Confirm deletion (may require type-to-confirm)
-7. Deletion event is logged in **Audit Log**
-
-### Safety Features
-
-- Canonical file (oldest) is always protected
-- Shows which file is canonical before deletion
-- Links to all affected issues
-- Full audit trail of all deletions
-- Trial users limited to 20 total deletions
+- Scans show live progress.
+- You can cancel a scan; it stops at safe checkpoints.
 
 ---
 
-## Storage Hygiene
+## 4. Action Center
 
-### Purpose
+### Security Risks
 
-Automatically detect and remove "trash" files - low-value files that consume storage without providing value.
+Shows detected risks based on:
+- filename patterns
+- (optional) on-demand content scanning for supported files
 
-### What Gets Detected as Trash
+You can:
+- filter by severity
+- open the issue containing the file
+- scan file content when available
 
-| Category | Examples |
-|----------|----------|
-| **Log Files** | *.log, *.trace, debug files, error logs |
-| **Database Dumps** | *.sql, *.dump, *.bak, backup files |
-| **Temporary Files** | *.tmp, *.temp, *.cache, *.old |
-| **Build Artifacts** | *.class, *.o, *.pyc, compiled files |
-| **Archives** | *.zip, *.tar, *.gz (when duplicates exist) |
+### Duplicates
 
-### Features
+Duplicates are grouped by **content hash**.
 
-- **Sortable Table** - Click column headers to sort by:
-  - File Name (alphabetical)
-  - Issue Key
-  - Waste Impact (size)
-  - Issue Status
-  - Age (days since creation)
+You can:
+- view groups sorted by impact
+- inspect where copies live
+- delete selected duplicates (canonical/original copy is protected)
 
-- **Filters**:
-  - Search by filename or issue key
-  - Filter by file type (extension)
-  - Filter by issue status
-  - Filter by age range
+### Storage Hygiene
 
-- **Pagination** - Configurable items per page (10, 25, 50, 100)
+Detects “trash” attachments (low-value files), based on filename/type heuristics.
 
-- **Selection** - Select individual files or all files on current page
+Deletion uses a safety flow:
+1. **Backup strategy** step
+2. **Delete** step (confirmation required)
 
-### Deletion Process
+### Frozen Dinosaurs (Heat Index)
 
-1. Open the **Storage Hygiene** tab
-2. Review detected trash files
-3. Use filters to narrow down (optional)
-4. Select files to delete
-5. Click **"Download Backup"** (opens Jira's native Backup Manager)
-6. After backup is created, click **"Permanent Delete"**
-7. Acknowledge risks and confirm deletion
-8. Deletion event is logged in **Audit Log**
-
-### Safety Features
-
-- **Active Issue Warning** - Files on active issues highlighted in yellow
-- **Backup Strategy Modal** - Directs you to Jira's native backup manager
-- **Risk Acknowledgment** - Must acknowledge risks before deleting
-- **Type-to-Confirm** - Extra confirmation for bulk deletes
-- **Full Audit Trail** - Every deletion is logged with context
-
-### Best Practices
-
-✅ **DO:**
-- Always create a backup before mass deletion
-- Review files on active issues carefully
-- Start with small batches (10-20 files)
-- Check issue status before deleting
-
-❌ **DON'T:**
-- Delete files without backup
-- Ignore active issue warnings
-- Delete files you're unsure about
-- Rush through the process
+Surfaces large files on stale issues (high cleanup priority).
 
 ---
 
-## Security Risks
+## 5. Deep Analytics
 
-### Purpose
-
-Identify files with potential security concerns based on filename patterns and optional deep content scanning.
-
-### Risk Severity Levels
-
-#### CRITICAL 🔴
-- Private keys (*.key, *.pem, id_rsa)
-- Database dumps (*.sql, *.dump)
-- Credentials files (.env, secrets.*)
-
-#### HIGH 🟠
-- Config files (*.conf, *.yaml, *.ini)
-- AWS credentials
-- API key files
-
-#### MEDIUM 🟡
-- Source code (*.js, *.py, *.java)
-- Business documents (*.xlsx, *.docx)
-- Log files
-
-#### LOW 🟢
-- Backup files (*.bak, *.backup)
-- Archives (*.zip, *.tar)
-- Text files
-
-### Features
-
-- **KPI Cards** - Summary metrics by severity level
-- **Filterable Table** - Click severity cards to filter
-- **Sortable Columns** - Sort by severity, filename, issue, etc.
-- **Pagination** - Configurable items per page
-- **Deep Content Scanning** (Optional) - Scan text files for sensitive data
-
-### Deep Content Scanning
-
-When enabled, scans text files < 5MB for:
-- Passwords
-- AWS Keys
-- Bearer Tokens
-- Credit Cards (Luhn validation)
-- Social Security Numbers (SSN)
-- Internal IP addresses
-
-**Enable in:** Settings → Security & Scanning → Toggle ON
-
-### Actions
-
-- **Review Content** - Click to scan file (if scannable)
-- **Download** - Download file for local inspection
-- **Navigate to Issue** - Open the issue containing the file
-- **Scan Results Modal** - Shows findings from deep content scan
-
-### Important Notes
-
-- **Read-Only View** - Security Risks tab is for awareness only
-- **No Direct Deletion** - Remediate through issue management
-- **Privacy-First** - Only scans filenames by default
-- **Opt-In Scanning** - Deep content scanning must be enabled in Settings
+Deep Analytics pages show storage trends and breakdowns, including:
+- storage velocity (growth)
+- usage by project
+- usage by user
+- usage by file type
+- age distribution
+- zombie projects (archive candidates)
 
 ---
 
-## Settings & Audit Log
+## 6. Operations
 
-### Settings Section
+### Scans (History, Export)
 
-#### Scan Scope Configuration
-- **Purpose** - Define which data is scanned
-- **Options**:
-  - **Full Instance** - Scan the entire Jira instance
-  - **Specific Projects** - Scan only selected projects
-
-#### Activity Panel
-- **Purpose** - Show attachment deletion history on issues
-- **Default** - Disabled (stealth mode)
-- **Enable** - Settings → Activity Panel → Toggle ON
-
-#### Security Scanning
-- **Purpose** - Enable deep content scanning for sensitive data
-- **Default** - Disabled
-- **Enable** - Settings → Security & Scanning → Toggle ON
-
-#### Heat Index Thresholds
-- **Large File Threshold** (MB) - Default: 10 MB
-- **Ancient History Threshold** (days) - Default: 365 days
-- Customize what qualifies as a "Frozen Dinosaur"
-
-#### Auto-Pilot (Automated Scanning)
-- **Purpose** - Schedule automatic scans
-- **Frequency** - Daily, Weekly, or Monthly
-- **Prerequisite** - At least one completed scan required
-- **Enable** - Settings → Auto-Pilot → Toggle ON
-
-#### Factory Reset
-- **Purpose** - Wipe all index data and start fresh
-- **Use Case** - Emergency recovery if scanner is stuck
-- **Warning** - Dangerous operation, use only when necessary
+The Scans section includes:
+- scan history list
+- scan-to-scan comparison
+- export of scan data (CSV)
 
 ### Audit Log
 
-Displays all system events with full context:
+Audit Log records major actions, including:
+- scans (started/completed/cancelled/failed)
+- deletions
+- settings changes
 
-| Event Type | Details |
-|------------|---------|
-| **Scan Started** | Who, when, scope, estimated issues |
-| **Scan Completed** | Duration, files found, duplicates, waste % |
-| **Scan Cancelled** | Who, when, progress at cancellation |
-| **Scan Failed** | Error message and context |
-| **Files Deleted** | Who, what, when, where, why, count |
-| **Settings Changed** | What changed, old value, new value, who |
+### Settings
 
-#### Filtering Options
-- **Action Type** - Scan, Deletion, Settings
-- **User** - Filter by who performed the action
-- **Issue Key** - Actions related to specific issues
-- **Date Range** - Specific time period
-
-#### Expandable Details
-Click the **▶** arrow to expand event details:
-- Full context for each action
-- Before/after values for settings changes
-- List of affected issues for deletions
-- Waste percentage indicators for scans
+Settings include implemented controls such as:
+- enabling/disabling features
+- scanning/security toggles
+- OCR publishing settings (if enabled)
+- “danger zone” reset (factory reset)
 
 ---
 
-## Attachment Explorer
+## 7. Attachment Explorer (Public Global Page)
 
-### Purpose
+### What it is
 
-Search and filter attachments across your Jira instance. Manage personal folders for organization.
+Attachment Explorer is a **live-only** explorer for all users.
 
-### Search & Filter Features
+It supports:
+- searching and filtering attachments
+- previewing
+- bulk download
+- deletion (subject to user permissions and licensing)
+- personal folders
 
-- **Search** - Find attachments by filename
-- **Filters** - Project, file type, size, author, age, etc.
-- **Virtualized List** - Efficient rendering for large datasets
-- **Issue Links** - Click to navigate to the issue
+### Basic vs Advanced (Raw JQL)
 
-### Multi-select (Ctrl/Cmd + Click, Shift + Click)
+Explorer has two modes:
 
-Attachment Explorer and the Issue View **Attachments** panel support OS-style multi-select:
+- **Basic mode**: visual filters
+- **Advanced mode**: raw JQL input
 
-- **Click**: select a single row (clears previous selection)
-- **Ctrl/Cmd + Click**: toggle a row in/out of the current selection
-- **Shift + Click**: select a contiguous range between the last anchor row and the clicked row
+### Live Explorer safety limits
 
-**Sorting & filtering behavior (important):**
-- Selection is tracked by **file ID**, so sorting/filtering will not “lose” your selected files.
-- The Shift-select **anchor** is a visual row index. When the list order changes (sort/filter), the anchor is reset to avoid selecting random rows.
-  - After a sort/filter, the first **Shift + Click** sets a new anchor.
-  - The next **Shift + Click** performs a range selection from that new anchor.
+To prevent accidental “scan the universe” queries:
+- Explorer enforces a **50,000 issue safety limit**
+- There is a manual override flow (explicit user confirmation)
 
-### JQL Mode: My Filters (Starred Filters)
+### Selection (Ctrl/Cmd + Click, Shift + Click)
 
-When using **JQL** mode in Attachment Explorer, you can quickly load your starred Jira filters.
+Selection works like a normal desktop file manager:
+- Click: select one row
+- Ctrl/Cmd + click: toggle
+- Shift + click: select a contiguous range
 
-**How to use:**
-1. Switch to **JQL** mode.
-2. Click the ⭐ icon in the toolbar (tooltip: **"Load saved filter"**).
-3. Select one of your starred Jira filters.
-4. The filter JQL is inserted into the JQL input (you can still edit it before searching).
-
-**Notes:**
-- Only shows filters you have starred in Jira.
-- If you have many filters, a search input appears in the popup.
-
-### Image Preview: Multiple Images + Select
-
-Clicking an image attachment opens a full-screen image preview where you can navigate through all images and select while reviewing.
-
-**What you can do in the preview:**
-- **Next/Previous image:** use on-screen arrows or keyboard arrow keys.
-- **Select/Deselect current image:** click the checkbox in the toolbar or press **Space**.
-- **Download:** use the download button.
-- **Zoom:** use zoom controls (scroll/pinch supported).
-- **Close:** press **Esc**.
-
-**Notes:**
-- Selection is synced with the main results selection.
-
-### Code / Log / TXT Preview (Built-in Viewer)
-
-Attachment Explorer supports in-browser preview for common code and text formats.
-
-**How to use:**
-1. In **Attachment Explorer**, click a supported text/code attachment.
-2. The viewer opens in a modal with search and navigation.
-3. Use **Download** if preview is unavailable for the file.
-
-#### What you can do in the viewer
-- **Search in file**: type in the search box.
-  - `Enter` = next match
-  - `Shift + Enter` = previous match
-  - `Ctrl/Cmd + F` focuses the search box
-- **Filter mode**: filters visible lines to those matching the search query.
-- **Word wrap**: toggle wrapping on/off.
-- **Copy**: copy the full file content to clipboard.
-- **Download**: download the original attachment.
-
-#### Performance & safety limits
-To keep the UI fast and avoid browser lockups, preview has hard limits:
-
-- **Code files** (most extensions below):
-  - Preview limit: **10 MB**
-  - Syntax highlighting limit: **1 MB**
-  - If file is **> 1 MB**, the viewer switches to **RAW** mode (plain text, search still works).
-- **Log files** (`.log`, `.out`, `.err`, `.txt`):
-  - Preview limit: **20 MB**
-
-If the file is above the preview limit, it will be **download-only**.
-
-#### Supported file types (by extension)
-
-**Log & text (10 MB preview limit):**
-- `.log`, `.out`, `.err`, `.txt`
-
-**Web / frontend:**
-- `.js`, `.mjs`, `.cjs`, `.jsx`, `.ts`, `.tsx`
-
-**Config / data:**
-- `.json`, `.yaml`, `.yml`, `.xml`, `.toml`, `.ini`, `.env`
-
-**Database:**
-- `.sql`
-
-**Markup / styles:**
-- `.html`, `.htm`, `.xhtml`, `.css`, `.scss`, `.sass`, `.less`
-
-**Scripts / shell:**
-- `.sh`, `.bash`, `.zsh`, `.bat`, `.cmd`, `.ps1`, `.psm1`
-
-**Backend languages:**
-- `.py`, `.python`, `.java`, `.c`, `.h`, `.cpp`, `.cc`, `.cxx`, `.hpp`, `.cs`, `.go`, `.rs`, `.php`, `.rb`, `.swift`, `.kt`, `.kts`, `.scala`, `.groovy`, `.gradle`
-
-**Docs / misc text formats:**
-- `.md`, `.markdown`, `.rst`, `.csv`, `.properties`, `.diff`, `.patch`, `.graphql`, `.gql`
-
-**DevOps / config-like:**
-- `.dockerfile`, `.docker`, `.makefile`, `.cmake`, `.nginx`, `.apache`, `.htaccess`
-
-#### Supported file types (special filenames)
-Some common filenames without an extension are also supported:
-- `Dockerfile`, `Makefile`, `Jenkinsfile`, `Vagrantfile`, `.env*`, `.gitignore`, `.dockerignore`
-
-#### MIME type support (fallback)
-If the file extension is missing or unusual, preview may still be enabled based on MIME type:
-- `text/*`
-- `application/json`
-- `application/xml`
-- `application/javascript`
-- `application/typescript`
-- `application/x-yaml`
-- `application/x-sh`
-- `application/x-python`
+Selection survives sorting/filtering by tracking file IDs.
 
 ### Folders (Personal Collections)
 
-Personal folders for organizing attachments by topic or project.
+Folders are personal collections for attachments.
 
-#### Available Actions
+You can:
+- create / rename / delete folders
+- add selected attachments to a folder
+- remove attachments from a folder
+- open a folder to view its contents
 
-| Action | Description |
-|--------|-------------|
-| **Create Folder** | New folder with custom name |
-| **Rename Folder** | Change folder name |
-| **Delete Folder** | Remove folder (attachments stay on issues) |
-| **Add to Folder** | Select files and add to folder |
-| **Remove from Folder** | Remove file from folder (stays on issue) |
-| **View Contents** | See all files in folder |
+Limits (implemented):
+- **Max folders per user:** 20
+- **Max files per folder:** 500
 
-#### Limits
-
-- **Max folders per user** - 20
-- **Max files per folder** - 500
-- **Scope** - Personal (tied to your user account)
-
-#### Smart Caching
-
-Folders use intelligent caching to minimize Forge Storage operations:
-
-- **Parallel Loading** - All folder items loaded simultaneously
-- **Cache Warming** - Background pre-loading of folder data
-- **Optimistic Updates** - Cache updated before storage write
-- **Membership Cache** - Pre-computed file-to-folder mappings
+Notes:
+- Deleting a folder does **not** delete attachments from Jira issues.
+- Folders are scoped to your Jira account.
 
 ---
 
-## Attachment Activity Panel
+## 8. Issue View Modules
 
-### Purpose
+### Attachments Issue Panel
 
-Display attachment deletion history on Jira issues for transparency and compliance.
+A compact attachment viewer inside an issue.
 
-### What It Shows
+You can:
+- preview attachments
+- select multiple
+- bulk download
+- add to folder
+- delete (if permitted)
 
-- **Deletion Events** - What was deleted, when, by whom
-- **Canonical File** - Reference to the original file (if accessible)
-- **Issue Links** - Links to related issues
+### Attachment Activity (Issue Context)
 
-### Enabling the Panel
-
-1. Go to **Settings & Audit Log** tab
-2. Toggle **"Show Attachment Activity Panel"** to ON
-3. Save settings
-4. Panel now appears on issues with deletion history
+A contextual panel that shows attachment activity (for issues that qualify under display conditions). It is designed for deletion transparency.
 
 ---
 
-## Licensing
+## 9. Preview & OCR
 
-### Trial (30 Days)
+### Preview Matrix
 
-- ✅ Full access to all features
-- ✅ Unlimited scans
-- ✅ All analytics and visualizations
-- ✅ Security risk detection
-- ✅ Audit trail
-- ⚠️ **Limited to 20 file deletions** (lifetime limit)
-- After limit reached → App becomes read-only
+Supported previews depend on file type. Implemented preview types include:
+- images
+- videos (browser-supported formats)
+- PDF
+- DOCX
+- spreadsheets (XLSX/XLS)
+- code/text
+- ZIP browsing with nested preview
 
-### Paid Subscription
+### OCR (Live Text)
 
-- ✅ Everything in trial, plus:
-- ✅ **Unlimited deletions**
-- ✅ Priority support
-- ✅ Regular feature updates
-- ✅ No restrictions
+OCR is available for images:
+- runs **entirely in the browser**
+- uses offline assets
+- does not store OCR text in app storage
 
-### Inactive (License Expired)
+### Make Searchable (OCR → Comment)
 
-- ✅ Can view dashboard
-- ✅ Can run scans
-- ✅ Can see analytics
-- ✅ Can view security risks
-- ✅ Can view audit logs
-- ❌ Cannot delete files
-- ❌ Cannot change settings
-- ❌ Security Risks tab disabled
+If enabled by admins, users can publish OCR text into the issue as a Jira comment so it becomes searchable via JQL.
 
-### Checking Trial Status
-
-Look for the banner at the top of the dashboard:
-
-```
-🎁 Trial: 15 days remaining | 5 of 20 deletions used
-```
-
-### What Happens After Trial?
-
-**Option 1: Subscribe**
-- Click **"Subscribe"** in the banner
-- Choose your plan
-- Continue using all features
-
-**Option 2: Don't Subscribe**
-- App becomes **read-only**
-- Can still view data and run scans
-- Cannot delete files or change settings
+Behavior:
+- creates or updates a single structured comment per attachment (no spam)
+- rate limited per user
+- text length is capped
 
 ---
 
-## Troubleshooting
+## 10. Licensing
 
-### "No Data / Empty Dashboard"
+Licensing affects destructive actions.
 
-**Solution:**
-- Run a scan and wait for completion
-- Dashboard shows data from last completed scan
-
-### "Numbers Don't Match Jira"
-
-**Solution:**
-- Dashboard displays data from the last completed scan
-- Run a new scan to refresh the data
-- Check the scope badge - may be scanning a subset of projects
-
-### "Can't Delete (Permission Denied)"
-
-**Solution:**
-- Verify you have Jira admin permissions
-- Check if your license allows deletions (trial limit or inactive)
-- Contact your Jira admin if needed
-
-### "Scan is Stuck"
-
-**Solution:**
-1. Refresh the page (scan continues in background)
-2. Wait 5+ more minutes (large instances take time)
-3. Check Phase 1 reassurance banner (collecting IDs is slow)
-4. Check Jira status page for outages
-5. If still stuck after 30 minutes → Settings → Factory Reset
-
-### "Deep Scan Fails"
-
-**Solution:**
-- File may be too large (> 5MB)
-- File may not be text format
-- Try downloading and inspecting locally
-- Check if deep scanning is enabled in Settings
-
-### "Can't Cancel Scan"
-
-**Solution:**
-1. Wait for current batch to complete (up to 5 minutes)
-2. Refresh page to see updated status
-3. Scan will auto-cancel at next checkpoint
+Implemented states:
+- **Trial**: limited lifetime deletions
+- **Active**: full access
+- **Inactive**: read-only / restricted actions
 
 ---
 
-## Best Practices
+## 11. Troubleshooting
 
-### ✅ DO
+### “No data” in Admin Console
 
-- **Scan monthly** - Keep data fresh and accurate
-- **Review Quick Wins first** - Maximum impact with minimum effort
-- **Create backup before mass deletion** - Safety first
-- **Enable Activity Panel** - Transparency and compliance
-- **Review Security Risks regularly** - Catch issues early
-- **Use project scoping** - Targeted scans for specific areas
-- **Check issue status** - Avoid deleting from active work
+- Run a scan and wait for completion.
 
-### ❌ DON'T
+### “Permission denied” on delete
 
-- **Delete without reviewing** - Always check before deleting
-- **Ignore active issue warnings** - Yellow highlights are important
-- **Delete without backup** - Deletions are permanent
-- **Rush through security remediation** - Take time to investigate
-- **Delete canonical files manually** - App protects them for a reason
-- **Run multiple scans simultaneously** - Can cause conflicts
-- **Ignore trial limit warnings** - Plan ahead for subscription
+- Deletions run as the current user; Jira permissions apply.
+- Trial limits and license status can block deletion.
+
+### Scan stuck or slow
+
+- Large instances can take time.
+- If a scan is stuck, use cancel and retry.
+- Factory reset exists for recovery.
 
 ---
 
-## Support
+## 12. Support
 
-**Support Portal:** https://drinkits.atlassian.net/servicedesk/customer/portal/34
+Support portal: https://drinkits.atlassian.net/servicedesk/customer/portal/34
 
-**Response Time:** Within 24 hours (weekdays)
-
-### Before Contacting Support
-
-1. ✅ Refresh the page
-2. ✅ Check this user guide
-3. ✅ Run a new scan
-4. ✅ Verify you have admin permissions
-5. ✅ Check Jira status page
-
-### When Contacting Support, Include
-
-- Your Jira instance URL
-- App version (shown in dashboard)
-- What you were trying to do
-- Error message (if any)
-- Screenshots (if applicable)
-- Browser and Jira version
+When contacting support, include:
+- Jira site URL
+- what page you were on (Mission Control / Explorer / Issue Panel)
+- what you clicked
+- the exact error message
+- approximate time and timezone
 
 ---
 
-## Quick Reference
-
-### Common Tasks
-
-| Task | Steps |
-|------|-------|
-| **Run a scan** | Dashboard → "Start the Audit" → Choose Scope → Confirm |
-| **View duplicates** | Duplicates tab → Review list → Click "View Details" |
-| **Delete duplicates** | Select files → "Delete Selected" → Confirm |
-| **Remove trash files** | Storage Hygiene → Select files → "Permanent Delete" → Confirm |
-| **Check security risks** | Security Risks tab → Review by severity |
-| **View audit log** | Settings & Audit Log → Scroll to "The Paper Trail" |
-| **Enable Activity Panel** | Settings → Activity Panel → Toggle ON → Save |
-| **Configure scan scope** | Settings → Scan Scope → Select projects → Save |
-| **Create a folder** | Explorer → "New Folder" → Enter name |
-| **Add to folder** | Explorer → Select files → "Add to Folder" → Choose folder |
-
-### Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl/Cmd + R` | Refresh dashboard |
-| `Esc` | Close modal / close image preview |
-| `Tab` | Navigate between fields |
-| `Enter` | Confirm action |
-| `Space` | Toggle selection in image preview (when open) |
-| `←` / `→` | Previous/next image in image preview (when open) |
-
----
-
-**Last Updated:** February 2026
-
-For the latest updates and feature announcements, visit the Atlassian Marketplace listing.
+**Last updated:** 2026-02
