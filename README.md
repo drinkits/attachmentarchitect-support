@@ -77,7 +77,7 @@ The sidebar can be collapsed to icon-only mode (52px). Collapse state is remembe
 
 ### What a Scan Does
 
-A scan builds an **attachment index** - metadata only (filenames, sizes, hashes, issue keys). No file content is downloaded or stored.
+A scan builds an **attachment index** — metadata only (filenames, sizes, hashes, issue keys). No file content is downloaded or stored.
 
 The index powers:
 - Dashboard KPIs and health score
@@ -87,34 +87,17 @@ The index powers:
 - Heat index calculation
 - All analytics pages
 
-### Scan Scope
-
-Admins can configure what gets scanned:
-
-| Scope | Description |
-|---|---|
-| **Full Instance** | All issues with attachments |
-| **Specific Projects** | Only selected projects |
-| **JQL** | Custom JQL query |
-
 ### Starting a Scan
 
-1. Open Admin Console → Mission Control or Scans page
-2. Click **Start Scan**
-3. Select scope
-4. Confirm
+1. Open Admin Console → **Scans** page
+2. Click **Start New Scan**
+3. The scan begins immediately (scans all issues with attachments)
 
 ### During a Scan
 
-- Live progress bar with percentage
-- You can close the browser - the scan continues in the background
+- Live progress bar with percentage and phase indicator
+- You can close the browser — the scan continues in the background
 - You can cancel at any time (stops at the next safe checkpoint)
-
-### Auto-Pilot (Scheduled Scanning)
-
-After at least one completed scan, you can enable Auto-Pilot:
-- Frequency: Daily, Weekly, or Monthly
-- Enable in Settings
 
 ---
 
@@ -254,9 +237,11 @@ All analytics pages require at least one completed scan.
 ### 7.1 Scans
 
 The Scans page shows:
-- **Scan history** - list of all past scans with status, duration, file count, health score
-- **Scan comparison** - compare two scans side-by-side to see what changed
-- **Data export** - export scan data as CSV
+- **Start New Scan** button — launches a scan immediately
+- **Last scan summary** — metrics from the most recent completed scan
+- **Scan history table** — all past scans with status, duration, file count, storage, duplicates, security risks, and trigger type (manual/auto)
+- **Delta badges** — each scan row shows +/- changes compared to the previous scan (files, bytes, duplicates, risks)
+- **Data export** — export scan data as CSV or ZIP (multiple datasets)
 
 ### 7.2 Audit Log
 
@@ -605,7 +590,7 @@ Run a scan and wait for it to complete. All dashboard data comes from the most r
 
 ### Numbers don't match Jira
 
-Dashboard data reflects the **last completed scan**. Run a new scan to refresh. Also check the scope - you may be scanning a subset of projects.
+Dashboard data reflects the **last completed scan**. Run a new scan to refresh.
 
 ### Permission denied on delete
 
