@@ -1,642 +1,583 @@
-# Attachment Architect - User Guide
+# Attachment Architect - User Guide (Jira Cloud)
 
-A complete guide to all features of Attachment Architect for Jira Cloud.
+This guide documents the **current, implemented** Attachment Architect functionality.
 
 ---
 
 ## Table of Contents
 
-1. [Where to Find the App](#1-where-to-find-the-app)
+1. [Where to Find Attachment Architect](#1-where-to-find-attachment-architect)
 2. [Admin Console](#2-admin-console)
-3. [Scanning](#3-scanning)
-4. [Mission Control (Dashboard)](#4-mission-control-dashboard)
-5. [Action Center](#5-action-center)
-6. [Deep Analytics](#6-deep-analytics)
-7. [Operations (Scans, Audit, Settings)](#7-operations)
-8. [Attachment Explorer](#8-attachment-explorer)
-9. [Issue Panel (Attachments)](#9-issue-panel-attachments)
-10. [Attachment Activity Panel](#10-attachment-activity-panel)
-11. [File Preview](#11-file-preview)
-12. [OCR (Live Text)](#12-ocr-live-text)
-13. [Folders (Personal Collections)](#13-folders-personal-collections)
-14. [Licensing](#14-licensing)
-15. [Troubleshooting](#15-troubleshooting)
-16. [Support](#16-support)
+   - [Mission Control (Dashboard)](#mission-control-dashboard)
+   - [Action Center](#action-center)
+   - [Deep Analytics](#deep-analytics)
+   - [Operations](#operations)
+3. [Scanning (Index Build)](#3-scanning-index-build)
+4. [Attachment Explorer (Global Page)](#4-attachment-explorer-global-page)
+   - [Basic vs Advanced (Raw JQL)](#basic-vs-advanced-raw-jql)
+   - [Live Explorer Safety Limits](#live-explorer-safety-limits)
+   - [Selection (Ctrl/Cmd + Click, Shift + Click)](#selection-ctrlcmd--click-shift--click)
+   - [Folders (Personal Collections)](#folders-personal-collections)
+   - [Bulk Actions](#bulk-actions)
+5. [Issue View Modules](#5-issue-view-modules)
+   - [Attachments Issue Panel](#attachments-issue-panel)
+   - [Attachment Activity (Issue Context)](#attachment-activity-issue-context)
+6. [File Preview](#6-file-preview)
+   - [Preview Matrix (14 Viewer Types)](#preview-matrix-14-viewer-types)
+   - [Image & Video Gallery](#image--video-gallery)
+   - [PDF Viewer](#pdf-viewer)
+   - [Word Document Viewer (.docx)](#word-document-viewer-docx)
+   - [Excel / Spreadsheet Viewer (.xlsx, .xls, .ods)](#excel--spreadsheet-viewer-xlsx-xls-ods)
+   - [PowerPoint Viewer (.pptx, .ppsx)](#powerpoint-viewer-pptx-ppsx)
+   - [CSV / TSV Grid Viewer](#csv--tsv-grid-viewer)
+   - [Code & Text Viewer (80+ languages)](#code--text-viewer-80-languages)
+   - [Audio Player](#audio-player)
+   - [Email Viewer (.eml)](#email-viewer-eml)
+   - [Certificate Viewer (.pem, .crt, .cer)](#certificate-viewer-pem-crt-cer)
+   - [Markdown Viewer (.md)](#markdown-viewer-md)
+   - [Map / Geo Viewer (.kml, .kmz, .geojson, .gpx)](#map--geo-viewer-kml-kmz-geojson-gpx)
+   - [Archive Inspector (.zip, .tar, .gz)](#archive-inspector-zip-tar-gz)
+   - [Preview Size Limits](#preview-size-limits)
+7. [OCR (Live Text Recognition)](#7-ocr-live-text-recognition)
+   - [How OCR Works](#how-ocr-works)
+   - [Make Searchable (OCR → Comment)](#make-searchable-ocr--comment)
+8. [Licensing](#8-licensing)
+9. [Troubleshooting](#9-troubleshooting)
+10. [Support](#10-support)
 
 ---
 
-## 1. Where to Find the App
+## 1. Where to Find Attachment Architect
 
-Attachment Architect has four entry points in Jira:
+Attachment Architect has **four entry points** in Jira Cloud:
 
-| Entry Point | Who Can Access | How to Open |
+| Entry Point | Who Can Access | Where |
 |---|---|---|
-| **Admin Console** | Jira admins | Jira settings → Apps → Attachment Architect |
+| **Admin Console** | Jira Admins | Jira settings → Apps → Attachment Architect |
 | **Attachment Explorer** | All users | Apps menu → Attachment Explorer |
-| **Attachments Issue Panel** | All users | Open any Jira issue → Attachments panel |
-| **Attachment Activity** | All users (if enabled) | Open a Jira issue → Attachment Activity panel |
+| **Attachments Panel** | All users | Issue sidebar → "Attachments" panel |
+| **Attachment Activity** | All users | Issue context → "Attachment Activity" (conditional) |
 
 ---
 
 ## 2. Admin Console
 
-The Admin Console is the control room for Jira admins. It always opens on **Mission Control**.
+The Admin Console is the control room for Jira administrators. It opens on **Mission Control** by default.
+
+### Layout
+
+- **Left sidebar** - collapsible navigation with icon-only mode
+- **Primary content area** - tables, charts, and KPI tiles
+- **Help & Support** - bottom of sidebar, links to documentation and support portal
 
 ### Sidebar Navigation
 
-The left sidebar organizes all admin pages into four sections:
+The sidebar is organized into four sections:
 
-**Overview**
-- 🎯 Mission Control - KPIs, health score, recommendations
+#### Mission Control (Dashboard)
 
-**Action Center**
-- 🛡️ Security Risks - PII and secret detection
-- 📋 Duplicates - Hash-based duplicate groups + bulk delete
-- 🧹 Storage Hygiene - Trash file detection + cleanup
-- ⏱️ Frozen Dinosaurs - Heat index (stale attachments)
+The landing page. Shows key performance indicators (KPIs) at a glance:
+- Total attachments indexed
+- Total storage consumed
+- Security risk count
+- Duplicate count
+- Scan status and last scan time
 
-**Deep Analytics**
-- 📈 Storage Velocity - Monthly growth chart
-- 📂 By Project - Project storage breakdown
-- 👤 By User - User storage breakdown
-- 📄 By File Type - File type distribution
-- ⏳ By Age - Age distribution
-- 📦 Zombie Projects - Archive candidates
+#### Action Center
 
-**Operations**
-- 🔬 Scans - Scan history, trigger, export
-- 📋 Audit Log - Action timeline
-- ⚙️ Settings - Configuration
-- ❓ Help & Support - Documentation, bug reports, feature requests
+Four specialized views for attachment governance:
 
-The sidebar can be collapsed to icon-only mode (52px). Collapse state is remembered.
+| Page | Icon | Purpose |
+|---|---|---|
+| **Security Risks** | 🔒 | Detected risks based on filename patterns and content scanning. Filter by severity, open source issue, scan file content. |
+| **Duplicates** | 📄 | Files grouped by content hash. View groups sorted by storage impact, inspect locations, delete duplicates (original copy protected). |
+| **Storage Hygiene** | 🗑️ | "Trash" attachments (low-value files) detected by filename/type heuristics. Two-step safety deletion: Backup Strategy → Delete. |
+| **Frozen Dinosaurs** | ⏱️ | Heat Index - surfaces large files on stale issues. Scatter chart visualization. Paginated table with sort/filter. High cleanup priority items first. |
 
----
+#### Deep Analytics
 
-## 3. Scanning
-
-### What a Scan Does
-
-A scan builds an **attachment index** — metadata only (filenames, sizes, hashes, issue keys). No file content is downloaded or stored.
-
-The index powers:
-- Dashboard KPIs and health score
-- Duplicate detection (content hash grouping)
-- Trash file detection (filename heuristics)
-- Security risk detection (filename patterns)
-- Heat index calculation
-- All analytics pages
-
-### Starting a Scan
-
-1. Open Admin Console → **Scans** page
-2. Click **Start New Scan**
-3. The scan begins immediately (scans all issues with attachments)
-
-### During a Scan
-
-- Live progress bar with percentage and phase indicator
-- You can close the browser — the scan continues in the background
-- You can cancel at any time (stops at the next safe checkpoint)
-
----
-
-## 4. Mission Control (Dashboard)
-
-Mission Control shows a high-level overview of your attachment landscape.
-
-### KPI Cards
-
-After a scan completes, you see summary metrics including:
-- Total attachment storage
-- Duplicate storage (potential savings)
-- Trash file storage
-- Health score (0–100)
-
-### Smart Recommendations
-
-Context-aware suggestions based on scan results (e.g., "You have 2.3 GB of duplicates - clean up the top 5 groups to reclaim 80% of waste").
-
-### Storage Velocity Chart
-
-Monthly growth trend showing files added and bytes consumed over time.
-
-### Top Offenders
-
-Top projects, users, and file types by storage consumption.
-
----
-
-## 5. Action Center
-
-### 5.1 Security Risks
-
-Detects files with potential security concerns based on **filename patterns**.
-
-#### Severity Levels
-
-| Level | Examples |
-|---|---|
-| **CRITICAL** | Private keys (`.key`, `.pem`, `id_rsa`), database dumps (`.sql`, `.dump`), credential files (`.env`, `secrets.*`) |
-| **HIGH** | Config files (`.conf`, `.yaml`, `.ini`), AWS credentials, API key files |
-| **MEDIUM** | Source code, business documents, log files |
-| **LOW** | Backup files, archives, text files |
-
-#### Features
-
-- KPI cards showing count per severity
-- Filterable and sortable table
-- Click to navigate to the issue containing the file
-- On-demand content scanning for text files (if enabled in Settings)
-
-#### On-Demand Content Scanning
-
-When enabled, scans text files (<5MB) for:
-- Passwords and secrets
-- AWS keys
-- Bearer tokens
-- Credit card numbers (Luhn validation)
-- Social Security Numbers
-- Internal IP addresses
-
-Enable in: Settings → Security Sentinel toggle
-
-### 5.2 Duplicates
-
-Duplicates are grouped by **SHA-256 content hash**. The oldest copy is marked as the **canonical** (original) file and is protected from deletion.
-
-#### Features
-
-- Groups sorted by wasted space (highest impact first)
-- Click **View Details** to see all locations where a file appears (up to 20 locations per group)
-- Links to all affected Jira issues
-- File metadata (size, upload date, author)
-
-#### Deleting Duplicates
-
-1. Open Duplicates page
-2. Click **View Details** on a group
-3. Select copies to delete (canonical file is protected)
-4. Click **Delete Selected**
-5. Confirm (type-to-confirm for bulk operations)
-6. Deletion is logged in the Audit Log
-
-### 5.3 Storage Hygiene
-
-Detects "trash" attachments - low-value files that consume storage.
-
-#### What Gets Detected
-
-| Category | Examples |
-|---|---|
-| Log files | `*.log`, `*.trace`, debug files |
-| Database dumps | `*.sql`, `*.dump`, `*.bak` |
-| Temporary files | `*.tmp`, `*.temp`, `*.cache`, `*.old` |
-| Build artifacts | `*.class`, `*.o`, `*.pyc` |
-
-#### Deletion Safety Flow
-
-1. Review detected trash files (filter by type, status, age)
-2. Select files to delete
-3. **Backup Strategy** step - directs you to create a Jira backup first
-4. **Delete** step - confirm deletion (type-to-confirm)
-5. Deletion is logged in the Audit Log
-
-#### Safety Indicators
-
-- Files on **active issues** are highlighted with a warning
-- Files on **completed issues** are safer to delete
-
-### 5.4 Frozen Dinosaurs (Heat Index)
-
-Surfaces large files on stale issues - the highest-priority cleanup candidates.
-
-Heat score is based on: **file size × issue staleness** (days since last update).
-
-Paginated table with scatter chart visualization.
-
----
-
-## 6. Deep Analytics
-
-All analytics pages require at least one completed scan.
+Six analytics pages with Recharts visualizations:
 
 | Page | What It Shows |
 |---|---|
-| **Storage Velocity** | Monthly growth chart (files + bytes over time) |
-| **By Project** | Storage per project (treemap visualization) |
-| **By User** | Storage per user (top consumers, duplicate patterns) |
-| **By File Type** | Storage per file extension (bubble chart) |
-| **By Age** | Age distribution (0–30d, 30–90d, 90–180d, 180–365d, 365d+) |
-| **Zombie Projects** | Projects with no updates in 180+ days (archive candidates) |
+| **Storage Velocity** | Storage growth over time (monthly trend) |
+| **By Project** | Storage breakdown per Jira project |
+| **By User** | Storage consumption per user |
+| **By File Type** | Distribution across 20 file categories |
+| **By Age** | Attachment age distribution |
+| **Zombie Projects** | Archive candidates - projects with attachments but no recent activity |
 
----
+#### Operations
 
-## 7. Operations
-
-### 7.1 Scans
-
-The Scans page shows:
-- **Start New Scan** button — launches a scan immediately
-- **Last scan summary** — metrics from the most recent completed scan
-- **Scan history table** — all past scans with status, duration, file count, storage, duplicates, security risks, and trigger type (manual/auto)
-- **Delta badges** — each scan row shows +/- changes compared to the previous scan (files, bytes, duplicates, risks)
-- **Data export** — export scan data as CSV or ZIP (multiple datasets)
-
-### 7.2 Audit Log
-
-Records all significant actions:
-
-| Event Type | What's Logged |
+| Page | Purpose |
 |---|---|
-| Scan Started | Who, when, scope |
-| Scan Completed | Duration, files found, duplicates, health score |
-| Scan Cancelled | Who, when, progress at cancellation |
-| Scan Failed | Error details |
-| Files Deleted | Who, what files, from which issues, when |
-| Settings Changed | What changed, old value → new value, who |
-
-#### Filtering
-
-- By action type
-- By user
-- By date range
-
-Click the expand arrow (▶) on any event to see full details.
-
-### 7.3 Settings
-
-Settings are organized into sections:
-
-#### General
-- **Activity Panel** toggle - show/hide the Attachment Activity panel on issues (default: off)
-
-#### Scanning & Detection
-- **Security Sentinel** toggle - enable real-time upload scanning and on-demand content scanning
-- **Large File Threshold** (MB) - what counts as a "large" file for heat index (default: 10 MB)
-- **Old Issue Threshold** (days) - what counts as a "stale" issue for heat index (default: 365 days)
-
-#### OCR Publishing
-- **OCR Publishing** toggle - allow users to publish OCR text as Jira comments
-- **PII Redaction** toggle - attempt to redact sensitive patterns before publishing
-- **Max Characters** - maximum OCR text length per comment (1,000–15,000)
-
-#### Danger Zone
-- **Factory Reset** - wipes all index data and starts fresh. Type `DELETE` to confirm. Use only for recovery.
+| **Scans** | Scan history, scan-to-scan comparison, CSV export of scan data |
+| **Audit Log** | Full audit trail - scans, deletions, settings changes. Expandable rows with details. |
+| **Settings** | Feature toggles, scanning/security configuration, OCR publishing settings, Auto-Pilot schedule, "Danger Zone" factory reset |
 
 ---
 
-## 8. Attachment Explorer
+## 3. Scanning (Index Build)
+
+### What a Scan Does
+
+A scan builds an **attachment index** (metadata only - no file content is stored) that powers all dashboards, analytics, duplicate detection, hygiene scoring, and heat index calculations.
+
+Scan data is stored in Forge SQL (MySQL-compatible hosted database).
+
+### Scope Options
+
+Admins can configure scan scope:
+- **Full instance** - all projects
+- **Specific projects** - selected projects only
+- **JQL scope** - custom JQL query (when enabled)
+
+### Auto-Pilot
+
+Scans can run automatically on a schedule (daily or weekly). The scheduler heartbeat runs every 5 minutes; the actual scan frequency is enforced in code.
+
+### Progress & Cancellation
+
+- Scans show **live progress** with percentage and current project
+- You can **cancel** a running scan - it stops at safe checkpoints
+- Cancelled scans retain partial data (no data loss)
+
+### Two-Phase Scanning
+
+Large instances use a two-phase approach:
+1. **Phase 1:** Collect issue metadata via JQL pagination
+2. **Phase 2:** Fetch attachment details per issue
+
+This ensures reliable scanning even for instances with millions of issues.
+
+---
+
+## 4. Attachment Explorer (Global Page)
 
 ### What It Is
 
-The Attachment Explorer is a **live search** tool available to all Jira users via **Apps → Attachment Explorer**.
+Attachment Explorer is a **live, real-time** attachment search tool available to **all Jira users** (not just admins).
 
-It queries the Jira API in real time - no scan required.
+Access: **Apps menu → Attachment Explorer**
 
-### Two Modes
+### Basic vs Advanced (Raw JQL)
 
-| Mode | Description |
+Explorer has two search modes:
+
+| Mode | How It Works |
 |---|---|
-| **Basic** | Visual filters (project, file type, size, author, status, date range) |
-| **Advanced (JQL)** | Raw JQL input with syntax validation |
+| **Basic** | Visual filter dropdowns - Project, Status, Issue Assignee, Type, Created date. Text search for issue text. Filename filter. File Type and Size filters. |
+| **Advanced (JQL)** | Raw JQL input field. Full JQL syntax support. Direct query editing. |
 
-### Safety Limit
+Switch between modes with the **Basic / JQL** toggle in the toolbar.
 
-Explorer enforces a **50,000 issue** safety limit. If your query matches more issues, you'll see a warning with an option to override (explicit confirmation required).
+### Live Explorer Safety Limits
 
-### Starred Filters (JQL Mode)
+To prevent accidental "scan the universe" queries:
+- Explorer enforces a **50,000 issue safety limit**
+- If a query would exceed this limit, a warning is shown
+- There is a **manual override flow** (explicit user confirmation required)
+- Results are fetched in real-time via paginated Jira REST API calls
 
-In JQL mode, click the ⭐ icon to load one of your starred Jira filters. The filter's JQL is inserted into the input field.
-
-### Selection
+### Selection (Ctrl/Cmd + Click, Shift + Click)
 
 Selection works like a desktop file manager:
 
 | Action | Behavior |
 |---|---|
-| Click | Select one row (clears previous selection) |
-| Ctrl/Cmd + Click | Toggle a row in/out of selection |
-| Shift + Click | Select a contiguous range from the last anchor |
+| **Click** | Select one row (clears previous selection) |
+| **Ctrl/Cmd + Click** | Toggle individual file (add/remove) |
+| **Shift + Click** | Select contiguous range from last anchor |
+| **Select All checkbox** | Toggle all visible files |
 
-Selection is tracked by file ID - it survives sorting and filtering. The Shift anchor resets when sort/filter changes.
+Selection survives sorting and filtering by tracking file IDs.
+
+### Folders (Personal Collections)
+
+Folders are **personal collections** - bookmarks for attachments you want to track.
+
+| Action | How |
+|---|---|
+| Create folder | Folder selector → "+" button |
+| Rename folder | Click folder name → edit inline |
+| Delete folder | Folder menu → delete (does NOT delete files from Jira) |
+| Add files | Select files → floating action bar → "Add to Folder" |
+| Remove files | Open folder → select files → "Remove from Folder" |
+| View folder | Click folder name in the folder selector |
+
+**Limits:**
+- Max **20 folders** per user
+- Max **500 files** per folder
+- Folders are scoped to your Jira account (not shared)
 
 ### Bulk Actions
 
-When files are selected, a floating action bar appears with:
-- **Add to Folder**
-- **Download** (single or bulk)
-- **Delete** (subject to permissions and licensing)
-
-### Table Columns
-
-- Checkbox (select)
-- File type icon / thumbnail
-- Filename
-- Folder membership
-- Issue key (link to issue)
-- Size
-- Upload date
-
----
-
-## 9. Issue Panel (Attachments)
-
-Attachment Architect adds an **Attachments** panel inside every Jira issue.
-
-### What It Shows
-
-A compact, virtualized attachment table for the current issue only.
-
-### Toolbar
-
-- Filter by filename (instant, client-side)
-- File type filter
-- Size filter
-- **Expand** button - opens the full Attachment Explorer in a modal, pre-scoped to the current issue
-
-### What You Can Do
-
-- Preview files (click the file type icon/thumbnail)
-- Select files (single, multi-select, or select-all)
-- Download (click filename)
-- Add to folder
-- Delete (if permitted)
-
----
-
-## 10. Attachment Activity Panel
-
-A contextual panel on Jira issues that shows **attachment deletion history** for transparency and compliance.
-
-### What It Shows
-
-- What was deleted, when, by whom
-- Reference to the canonical file (if applicable)
-- Links to related issues
-
-### Enabling
-
-This panel is **off by default**. To enable:
-1. Admin Console → Settings
-2. Toggle **Activity Panel** to ON
-3. Save
-
-The panel only appears on issues that have deletion history.
-
----
-
-## 11. File Preview
-
-### Preview Support Matrix
-
-| File Type | Preview | Size Limit | Notes |
-|---|---|---:|---|
-| Images (jpg, png, gif, bmp, svg, webp, ico) | ✅ Full-screen gallery | 15 MB | Navigation between images, zoom, select |
-| Video (mp4, webm) | ✅ HTML5 player | 100 MB | WebM may not play in Safari |
-| PDF | ✅ In-browser | 15 MB | Native text selection supported |
-| Word (.docx) | ✅ In-browser | 15 MB | `.doc` (legacy) is NOT supported |
-| Excel (.xlsx, .xls) | ✅ In-browser | 15 MB | `.xls` has limited fidelity |
-| Code / text files | ✅ Syntax-highlighted viewer | 10 MB | Syntax highlighting disabled above 1 MB (raw text mode) |
-| Log / txt files | ✅ Text viewer | 20 MB | Optimized for large text |
-| ZIP archives | ✅ Browse contents | 500 MB | Only reads archive structure, not full download |
-| Files inside ZIP | ✅ If supported type | Per type | Single-file extraction limit: 50 MB |
-| Unsupported formats | ❌ Download only | - | 50% opacity icon, tooltip explains |
-
-### Supported Code/Text Extensions
-
-**Log & text:** `.log`, `.txt`, `.out`, `.err`
-
-**Web:** `.js`, `.mjs`, `.cjs`, `.jsx`, `.ts`, `.tsx`
-
-**Config:** `.json`, `.yaml`, `.yml`, `.xml`, `.toml`, `.ini`, `.env`
-
-**Database:** `.sql`
-
-**Markup:** `.html`, `.htm`, `.xhtml`, `.css`, `.scss`, `.sass`, `.less`
-
-**Shell:** `.sh`, `.bash`, `.zsh`, `.bat`, `.cmd`, `.ps1`, `.psm1`
-
-**Backend:** `.py`, `.java`, `.c`, `.h`, `.cpp`, `.cc`, `.cxx`, `.hpp`, `.cs`, `.go`, `.rs`, `.php`, `.rb`, `.swift`, `.kt`, `.kts`, `.scala`, `.groovy`, `.gradle`
-
-**Docs:** `.md`, `.markdown`, `.rst`, `.csv`, `.properties`, `.diff`, `.patch`, `.graphql`, `.gql`
-
-**DevOps:** `Dockerfile`, `Makefile`, `Jenkinsfile`, `Vagrantfile`, `.gitignore`, `.dockerignore`
-
-### Code Viewer Features
-
-- **Search in file** - `Enter` = next match, `Shift+Enter` = previous, `Ctrl/Cmd+F` focuses search
-- **Filter mode** - show only lines matching the search query
-- **Word wrap** toggle
-- **Copy** full file content
-- **Download** original attachment
-
-### PDF Text Selection
-
-PDF preview supports native text selection for PDFs with a text layer. Click and drag to select, then Ctrl/Cmd+C to copy. Scanned PDFs (image-only) do not have a text layer.
-
-### ZIP Archive Browsing
-
-ZIP files are browsed using **byte-range fetching** - only the archive directory (~64KB) is downloaded initially. Individual files are extracted on demand.
-
-- Navigate the folder structure
-- Preview supported files inside the archive
-- Download individual files or the full archive
-
-**Keyboard:** ESC closes nested preview first, then the ZIP viewer.
-
-### Image Gallery
-
-Clicking an image opens a full-screen gallery with:
-- Next/previous navigation (arrows or keyboard ←/→)
-- Select/deselect current image (checkbox or Space)
-- Zoom controls
-- Download
-- Close with ESC
-
----
-
-## 12. OCR (Live Text)
-
-### What It Does
-
-Extracts selectable, copyable text from image attachments using a built-in text scanner.
-
-### How It Works
-
-- OCR runs **entirely in your browser** (client-side)
-- Uses offline language packs bundled with the app
-- No data is sent to external services
-- OCR results are **not stored** by the app
-
-### How to Use
-
-1. Open an image preview (from Explorer or Issue Panel)
-2. Open the **Detected Text** panel
-3. Select a language (if needed)
-4. Copy the extracted text
-
-### Bundled Languages (20)
-
-| Language | Code |
-|---|---|
-| English | eng |
-| German | deu |
-| French | fra |
-| Spanish | spa |
-| Italian | ita |
-| Portuguese | por |
-| Dutch | nld |
-| Russian | rus |
-| Polish | pol |
-| Ukrainian | ukr |
-| Czech | ces |
-| Swedish | swe |
-| Turkish | tur |
-| Japanese | jpn |
-| Korean | kor |
-| Chinese (Simplified) | chi_sim |
-| Hindi | hin |
-| Estonian | est |
-| Latvian | lav |
-| Lithuanian | lit |
-
-### Limits
-
-| Limit | Value |
-|---|---|
-| Max image dimension | 4,000 px (larger images are downscaled) |
-| Max input size | ~25 MB |
-| Timeout | 2 minutes per scan |
-
-### Make Searchable (OCR → Comment)
-
-If enabled by an admin, you can publish OCR text into the Jira issue as a **structured comment**, making it searchable via JQL (`comment ~ "keyword"`).
-
-**How to use:**
-1. Run OCR on an image
-2. Click **Make Searchable**
-3. The app posts (or updates) a comment on the issue
-
-**Behavior:**
-- One comment per attachment (no spam). If text hasn't changed, nothing is reposted.
-- Rate limited: 30 publishes per user per 5 minutes
-- Text is capped at the admin-configured maximum (up to 15,000 characters)
-- Optional PII redaction (emails, phone numbers, credit cards, secrets) - enabled by default
-
-**After publishing:** The action changes to **Copy JQL** so you can immediately search for the text.
-
----
-
-## 13. Folders (Personal Collections)
-
-### What They Are
-
-Folders are personal collections for organizing attachments by topic, project, or workflow. They are tied to your Jira account - other users cannot see your folders.
-
-### What You Can Do
+When files are selected, a **floating action bar** appears at the bottom:
 
 | Action | Description |
 |---|---|
-| Create folder | New folder with a custom name |
-| Rename folder | Change the folder name |
-| Delete folder | Remove the folder (attachments stay on their Jira issues) |
-| Add to folder | Select files → Add to Folder → choose folder |
-| Remove from folder | Remove a file from a folder (stays on the issue) |
-| View contents | Open a folder to see all files in it |
+| **Download** | Single file: direct download. Multiple files: opens download options modal (ZIP packaging). |
+| **Add to Folder** | Opens folder selection modal. Create new folder or add to existing. |
+| **Delete** | Opens delete confirmation modal. Two-step safety flow. Requires Jira delete permission. |
+| **Clear Selection** | Deselect all files |
 
-### Limits
+**Delete limit from Issue Panel:** Max 100 files per batch. Use Attachment Explorer for larger cleanups.
 
-| Limit | Value |
+---
+
+## 5. Issue View Modules
+
+### Attachments Issue Panel
+
+A **compact attachment viewer** embedded in the Jira issue sidebar.
+
+**Features:**
+- Lists all attachments for the current issue
+- Compact toolbar with filename filter, file type filter, size filter
+- Click to preview any supported file type
+- Select multiple files for bulk actions
+- Folder chips showing which folders contain each file
+- "Expand" button opens full Attachment Explorer filtered to this issue
+- "Refresh" button reloads attachment list
+- Folder navigation - click a folder chip to open that folder in Explorer
+
+**Empty state:** Shows "0 attachments found. This issue is suspiciously clean." with a button to open Global Explorer.
+
+### Attachment Activity (Issue Context)
+
+A **conditional** context panel that appears on issues with attachment activity.
+
+**Display conditions:**
+- Issue must have the `attachmentArchitect-hasActivity` entity property set to `true`
+- The `aa_showActivityPanel` app property must be enabled
+
+This panel is designed for **deletion transparency** - showing what happened to attachments on this issue.
+
+---
+
+## 6. File Preview
+
+Attachment Architect includes **14 specialized file viewers** that render files entirely in the browser. No file content is sent to external servers.
+
+### Preview Matrix (14 Viewer Types)
+
+| # | Viewer | File Types | Max Size | Key Features |
+|---|--------|-----------|----------|-------------|
+| 1 | **Image Gallery** | jpg, jpeg, png, gif, bmp, svg, webp, ico | 15 MB | Lightbox, zoom, pan, gallery navigation, OCR |
+| 2 | **Video Player** | mp4, webm | 100 MB | HTML5 player, gallery navigation |
+| 3 | **PDF Viewer** | pdf | 15 MB | Page-by-page rendering, zoom, page navigation |
+| 4 | **Word Viewer** | docx | 15 MB | Full document rendering with styles |
+| 5 | **Excel Viewer** | xlsx, xls, ods | 15 MB | Sheet tabs, column/row headers, search |
+| 6 | **PowerPoint Viewer** | pptx, ppsx | 50 MB | Slide-by-slide rendering |
+| 7 | **CSV Grid Viewer** | csv, tsv | 15 MB | Spreadsheet grid, column sorting |
+| 8 | **Code Viewer** | 80+ extensions | 10 MB (code) / 20 MB (logs) | Syntax highlighting, line numbers, search, word wrap, copy |
+| 9 | **Audio Player** | mp3, wav, ogg, m4a, aac, flac, opus | 100 MB | Waveform, ID3 tags, lyrics display |
+| 10 | **Email Viewer** | eml | 15 MB | Headers, body, attachment list |
+| 11 | **Certificate Viewer** | pem, crt, cer, der, p7b, p7c, key | 1 MB | Certificate metadata, validity, issuer chain |
+| 12 | **Markdown Viewer** | md, markdown | 5 MB | Rendered HTML preview with syntax highlighting |
+| 13 | **Map / Geo Viewer** | kml, kmz, geojson, gpx | 5 MB | Interactive SVG map, feature table, Google Maps links |
+| 14 | **Archive Inspector** | zip, tar, gz, tgz | 500 MB | Virtual file browser, nested preview, byte-range fetching |
+
+### Preview Access Paths
+
+Files can be previewed from **four paths:**
+
+1. **Explorer** → click attachment → preview modal
+2. **Issue Panel** → click attachment → preview modal (via Forge Modal API)
+3. **Explorer** → ZIP → nested file → preview modal
+4. **Issue Panel** → ZIP → nested file → preview modal
+
+### Image & Video Gallery
+
+Uses `yet-another-react-lightbox` for a full-screen gallery experience:
+- **Arrow keys** or swipe to navigate between images/videos
+- **Zoom** with mouse wheel or pinch
+- **Download** button in toolbar
+- **Selection checkbox** - select/deselect files while previewing
+- Images and videos from the same context are grouped into a single gallery
+
+### PDF Viewer
+
+Powered by `pdf.js` (Mozilla):
+- Page-by-page lazy rendering
+- Zoom controls
+- Page number navigation
+- Download button
+
+### Word Document Viewer (.docx)
+
+Powered by `docx-preview`:
+- Full document rendering with styles, tables, images
+- Scroll through entire document
+- Download button
+
+**Note:** Legacy `.doc` format is NOT supported (only `.docx`).
+
+### Excel / Spreadsheet Viewer (.xlsx, .xls, .ods)
+
+Powered by `SheetJS`:
+- Multiple sheet tabs
+- Column and row headers
+- Search within sheet
+- Supports `.xlsx`, `.xls`, and `.ods` (OpenDocument Spreadsheet)
+
+### PowerPoint Viewer (.pptx, .ppsx)
+
+- Slide-by-slide rendering
+- Navigation between slides
+- Supports `.pptx` and `.ppsx` (auto-play presentations)
+
+### CSV / TSV Grid Viewer
+
+- Spreadsheet-style grid display
+- Column sorting
+- Handles large files with virtualization
+
+### Code & Text Viewer (80+ languages)
+
+Powered by Prism.js with virtualized rendering:
+- **Syntax highlighting** for 80+ languages (JavaScript, Python, Java, Go, Rust, SQL, YAML, Terraform, Solidity, and many more)
+- **Line numbers** with click-to-select
+- **Search** (Ctrl/Cmd+F) with match highlighting and navigation
+- **Word wrap** toggle
+- **Copy to clipboard**
+- **Log file mode** - regex-based highlighting for `.log`, `.txt`, `.out`, `.err` files (20 MB limit)
+- Special filename detection: `Dockerfile`, `Makefile`, `Jenkinsfile`, `.env`, `.gitignore`
+
+### Audio Player
+
+Custom HTML5 audio player:
+- **Waveform visualization**
+- **ID3 tag extraction** (artist, album, title, year)
+- **Lyrics display** (from ID3 USLT tag)
+- **Playback controls** - play/pause, seek, volume
+- Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, OPUS
+
+**Browser compatibility notes:**
+- OGG: may not play in Safari
+- WebM audio: may not play in Safari
+
+### Email Viewer (.eml)
+
+- Parses RFC 2822 email format
+- Displays headers (From, To, Subject, Date)
+- Renders email body (HTML or plain text)
+- Lists email attachments
+
+### Certificate Viewer (.pem, .crt, .cer)
+
+Compact metadata viewer for X.509 certificates:
+- Subject and Issuer details
+- Validity period (Not Before / Not After)
+- Serial number
+- Signature algorithm
+- Key usage
+
+### Markdown Viewer (.md)
+
+- Renders Markdown to styled HTML
+- Code block syntax highlighting
+- Tables, lists, headings, links
+- Download original file
+
+### Map / Geo Viewer (.kml, .kmz, .geojson, .gpx)
+
+Interactive geographic data viewer - **100% offline**, no external map tile requests:
+
+- **Bundled basemap** - Natural Earth 50m world map (country borders + coastlines)
+- **SVG rendering** via d3-geo projections
+- **Zoom/pan** - mouse wheel + drag, zoom buttons with Atlaskit icons
+- **Feature table** - lists all geographic features with:
+  - Type icon (📍 placemark, 📏 route, 📐 area)
+  - Feature name
+  - Measurement (coordinates for points, distance for lines, area for polygons)
+  - "Maps" link - opens Google Maps via Forge router (with user confirmation prompt)
+- **Feature interaction** - click/hover on map highlights table row and vice versa
+- **KML style support** - renders stroke/fill colors from KML `<Style>` elements
+- **KMZ support** - extracts KML from ZIP container (with decompression bomb protection)
+- **Dynamic layout** - map/table split adjusts based on feature count (70/30 for ≤3 features, 60/40 for ≤6, 50/50 for more)
+- **Graticule** - subtle latitude/longitude grid overlay
+- **Security:** XML sanitization, CSS color validation, coordinate validation, depth limiting, prototype pollution guard
+
+**Supported formats:**
+| Format | Extension | Description |
+|---|---|---|
+| KML | `.kml` | Keyhole Markup Language (Google Earth) |
+| KMZ | `.kmz` | Compressed KML (ZIP container) |
+| GeoJSON | `.geojson` | Standard geographic JSON format |
+| GPX | `.gpx` | GPS Exchange Format (tracks, routes, waypoints) |
+
+### Archive Inspector (.zip, .tar, .gz)
+
+Virtual file system browser for archives:
+
+- **Surgical byte-range fetching** - only downloads the Central Directory (~64 KB), not the entire archive
+- **Virtual folder navigation** - browse archive contents like a file manager
+- **Nested preview** - click any supported file inside the archive to preview it
+- **File metadata** - size, compressed size, modification date
+- **Extract on demand** - individual files extracted only when opened
+- Supports `.zip`, `.tar`, `.gz`, `.tgz`
+
+### Preview Size Limits
+
+| File Type | Max Preview Size |
 |---|---|
-| Max folders per user | 20 |
-| Max files per folder | 500 |
+| Images, PDF, Word, Excel, CSV, Email | 15 MB |
+| Code files | 10 MB |
+| Log files (.log, .txt, .out, .err) | 20 MB |
+| PowerPoint | 50 MB |
+| Video, Audio | 100 MB |
+| Archives (browsing) | 500 MB |
+| Markdown | 5 MB |
+| Geo files | 5 MB |
+| Certificates | 1 MB |
+
+Files exceeding these limits show a "ghost state" (50% opacity) with a tooltip explaining the limit.
 
 ---
 
-## 14. Licensing
+## 7. OCR (Live Text Recognition)
 
-### Trial (30 Days)
+### How OCR Works
 
-- ✅ Full access to all features
-- ✅ Unlimited scans and analytics
-- ⚠️ **Limited to 20 file deletions** (lifetime total)
-- After limit → deletion is blocked
+OCR is available for **image files** (jpg, png, gif, bmp, webp):
 
-### Active (Paid Subscription)
+- Runs **entirely in the browser** using Tesseract.js (WebAssembly)
+- Uses **offline language data** bundled with the app (no external network requests)
+- **Does not store** OCR text in app storage
+- Results are cached in the browser session for performance
+- Automatic **language detection** based on script analysis
 
-- ✅ Everything, no restrictions
-- ✅ Unlimited deletions
+**To use OCR:**
+1. Open an image in the preview gallery
+2. Click the "OCR" / text icon button in the toolbar
+3. The OCR panel slides in from the right
+4. Text is extracted and displayed
+5. Copy text to clipboard with one click
 
-### Inactive (License Expired)
+### Make Searchable (OCR → Comment)
 
-- ✅ Can view dashboards, run scans, see analytics
-- ❌ Cannot delete files
-- ❌ Cannot change settings
+If enabled by admins in Settings, users can **publish OCR text** into the Jira issue as a structured comment:
 
-### Trial Status
+- Creates or updates a **single comment per attachment** (no spam - idempotent)
+- Comment is formatted with metadata (filename, extraction date)
+- Published text becomes **searchable via JQL** (`text ~ "search term"`)
+- **Rate limited** per user to prevent abuse
+- **Text length capped** for safety
 
-A banner at the top of the Admin Console shows:
-- Days remaining
-- Deletions used out of 20
+**Requirements:**
+- Admin must enable OCR publishing in Settings
+- User must have comment permission on the issue
+- Active license (trial or paid)
 
 ---
 
-## 15. Troubleshooting
+## 8. Licensing
 
-### No data in Admin Console
+Attachment Architect uses Atlassian Marketplace licensing.
 
-Run a scan and wait for it to complete. All dashboard data comes from the most recent completed scan.
+| License State | Access Level | Details |
+|---|---|---|
+| **Trial** | **Full access** | All features available. Time-limited only - no feature restrictions during trial. |
+| **Active** | **Full access** | All features available. |
+| **Inactive** | **Read-only** | Browsing and viewing allowed. Destructive actions (delete, scan, settings changes) are blocked. Shows "Who turned out the lights?" message. |
 
-### Numbers don't match Jira
+**License check behavior:**
+- License is checked on every page load
+- Retries up to 3 times on network failure
+- Falls back to "inactive" if all retries fail (safe default)
+- Same license check applies to Admin Console, Explorer, and Issue Panel
 
-Dashboard data reflects the **last completed scan**. Run a new scan to refresh.
+---
 
-### Permission denied on delete
+## 9. Troubleshooting
 
-- Deletions run as the current user - Jira permissions apply
-- Check your license status (trial limit or inactive)
-- Contact your Jira admin if needed
+### "No data" in Admin Console
 
-### Scan is stuck
+- Run a scan first and wait for completion
+- Check the Scans page for scan status and errors
+- If scan failed, check the error message and retry
 
-1. Refresh the page (scan continues in background)
-2. Wait - large instances can take time
-3. Cancel and retry
-4. If stuck for 30+ minutes → Settings → Factory Reset
+### "Permission denied" on delete
+
+- Deletions run as the **current user** - Jira issue permissions apply
+- You must have "Delete Attachments" permission in the project
+- License must be active (trial or paid) - inactive license blocks all destructive actions
+
+### Scan stuck or slow
+
+- Large instances (100k+ issues) can take 10-30 minutes
+- Check scan progress on the Scans page
+- If stuck, use **Cancel** and retry
+- **Factory Reset** in Settings → Danger Zone can clear all scan data for a fresh start
+
+### Preview not loading
+
+- Check file size against the [preview size limits](#preview-size-limits)
+- Unsupported formats show 50% opacity with a tooltip
+- For video: only MP4 and WebM are supported (MOV, AVI, MKV are not)
+- For Word: only `.docx` is supported (legacy `.doc` is not)
+- For archives: only ZIP, TAR, GZ are supported (RAR, 7z are not yet)
+
+### Explorer returns no results
+
+- Ensure you have at least one filter active (project, status, assignee, etc.)
+- Check that your JQL is valid in Advanced mode
+- The 50,000 issue safety limit may be blocking large queries - use the override option
 
 ### OCR not working
 
-- Check that the image is under 25 MB and under 4,000 px
-- Try a different language
-- Refresh the page and retry
-
-### Preview not available
-
-- Check the file size against the limits in the [Preview Matrix](#preview-support-matrix)
-- `.doc` (legacy Word) is not supported - only `.docx`
-- Video formats other than MP4 and WebM are not supported
+- OCR only works on image files (jpg, png, gif, bmp, webp)
+- The image must be under 15 MB
+- OCR runs in the browser - it may be slow on large images or low-powered devices
+- WebAssembly must be enabled in your browser
 
 ---
 
-## 16. Support
+## 10. Support
 
-**Support Portal:** https://drinkits.atlassian.net/servicedesk/customer/portal/34
+**Support portal:** [https://drinkits.atlassian.net/servicedesk/customer/portal/34](https://drinkits.atlassian.net/servicedesk/customer/portal/34)
 
-- **Report a Bug:** https://drinkits.atlassian.net/servicedesk/customer/portal/34/group/34/create/43
-- **Suggest a Feature:** https://drinkits.atlassian.net/servicedesk/customer/portal/34/group/34/create/44
-- **Documentation:** https://github.com/drinkits/attachmentarchitect-support
+**Quick links from the app:**
+- Admin Console sidebar → **Help & Support** → Documentation / Report a Bug / Suggest a Feature
 
-### When Contacting Support
-
-Include:
-- Your Jira site URL
-- What page you were on (Mission Control / Explorer / Issue Panel)
+**When contacting support, include:**
+- Jira site URL
+- Which page you were on (Mission Control / Explorer / Issue Panel)
 - What you clicked
-- The exact error message (if any)
-- Screenshots (if applicable)
-- Browser and OS
+- The exact error message (screenshot if possible)
+- Approximate time and timezone
+- Browser and OS version
 
 ---
 
-**Last updated:** February 2026
+## File Category Reference
+
+Attachment Architect categorizes files into **20 categories** for filtering and analytics:
+
+| Category | Icon | Example Extensions |
+|---|---|---|
+| Images | 🖼️ | jpg, png, gif, webp, svg, heic, raw, cr2 |
+| Documents | 📄 | pdf, doc, docx, rtf, odt, txt, epub |
+| Spreadsheets | 📊 | xls, xlsx, csv, tsv, ods, numbers |
+| Presentations | 📽️ | ppt, pptx, pps, ppsx, odp, key |
+| Code | 💻 | js, ts, py, java, go, rs, swift, kt, vue, svelte |
+| Config | ⚙️ | json, yaml, yml, xml, toml, ini, env, dockerfile |
+| Logs | 📝 | log, trace, out, err, debug |
+| Data | 🗄️ | sql, dump, parquet, avro, sqlite, ipynb, har |
+| Archives | 📦 | zip, rar, 7z, tar, gz, iso, jar, whl, apk |
+| Video | 🎬 | mp4, avi, mov, mkv, webm, wmv |
+| Audio | 🎵 | mp3, wav, ogg, m4a, flac, aac, opus |
+| Design | 🎨 | fig, sketch, psd, ai, xd, blend |
+| Sensitive | 🔐 | pem, key, p12, pfx, crt, gpg, kdbx, vault |
+| Email | 📧 | eml, msg, mbox, ics, vcf |
+| Diagrams | 📐 | drawio, vsd, vsdx, bpmn, puml, mermaid |
+| Maps/Geo | 🗺️ | kml, kmz, geojson, gpx, shp |
+| 3D Models | 🧊 | stl, obj, fbx, gltf, glb, dwg, dxf |
+| Notebooks | 📓 | ipynb, rmd, qmd |
+| Fonts | 🔤 | ttf, otf, woff, woff2 |
+| Other | 📎 | Everything else |
+
+---
+
+**Last updated:** 2026-02
